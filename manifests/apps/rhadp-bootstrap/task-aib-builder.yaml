@@ -83,9 +83,9 @@ spec:
         - mountPath: /manifest-work
           name: manifest-work
   
-  podTemplate:
-    nodeSelector:
-      kubernetes.io/arch: arm64
+  #podTemplate:
+  #  nodeSelector:
+  #    kubernetes.io/arch: arm64
 
   workspaces:
     - name: source
