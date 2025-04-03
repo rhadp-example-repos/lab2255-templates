@@ -72,7 +72,7 @@ spec:
           value: $(params.source-branch)
         - name: component_id
           value: $(params.component-id)
-        - name: image_name
+        - name: os_image_name
           value: $(tasks.automotive-image-builder.results.os-image-name)
       runAfter:
         - automotive-image-builder
