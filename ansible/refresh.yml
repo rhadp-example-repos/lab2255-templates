@@ -1,6 +1,12 @@
 - name: Refresh the code templates from upstream
   hosts: localhost
   vars:
+    # developer hub templates
+    templates_repo_group: "rhdh"
+    templates_repo_name: "lab2255-templates"
+    templates_repo_url: "https://github.com/rhadp-example-repos/lab2255-templates"
+    templates_repo_branch: "main"
+
     # set the following to control the install/uninstall process
     silent: false
     become_override: false
