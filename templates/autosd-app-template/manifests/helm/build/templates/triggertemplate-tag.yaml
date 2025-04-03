@@ -28,10 +28,10 @@ spec:
             value: $(tt.params.git-revision)
           - name: tag
             value: $(tt.params.destination-tag)
-          #- name: output-image
-          #  value: $(tt.params.output-image)
           - name: component-id
             value: {{ .Values.app.name }}
+          - name: build-stage
+            value: "test"
         pipelineRef:
           name: {{ .Values.app.name }}-test
         serviceAccountName: pipeline

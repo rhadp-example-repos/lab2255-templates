@@ -19,6 +19,9 @@ spec:
     - description: Component id
       name: component-id
       type: string
+    - name: build-stage
+      description: Stage of the build process
+      type: string
   tasks:
     - name: git-clone
       params:
@@ -33,6 +36,21 @@ spec:
         - name: output
           workspace: source-folder
     
+    - name: prepare-build
+      params:
+        #- name: job_id
+        #  value: $(params.source-branch)
+        #- name: component_id
+        #  value: $(params.component-id)
+      taskRef:
+        kind: ClusterTask
+        name: noop
+      runAfter:
+        - git-clone
+      workspaces:
+        - name: source
+          workspace: source-folder
+
     - name: automotive-image-builder
       params:
         - name: job_id
@@ -43,7 +61,7 @@ spec:
         kind: ClusterTask
         name: aib-builder-task
       runAfter:
-        - git-clone
+        - prepare-build
       workspaces:
         - name: source
           workspace: source-folder
@@ -54,6 +72,8 @@ spec:
           value: $(params.source-branch)
         - name: component_id
           value: $(params.component-id)
+        - name: image_name
+          value: $(tasks.automotive-image-builder.results.os-image-name)
       runAfter:
         - automotive-image-builder
       taskRef:

@@ -29,7 +29,7 @@ spec:
       default: ""
   steps:
     - name: jmp
-      image: quay.io/rhadp-example-repos/jumpstarter:latest
+      image: quay.io/jumpstarter-dev/jumpstarter-devspace:latest #quay.io/rhadp-example-repos/jumpstarter:latest
 
       script: |
         #!/usr/bin/env bash
@@ -44,9 +44,7 @@ spec:
         # do something with jumpstarter
 
       workingDir: $(workspaces.source.path)
-      securityContext:
-        runAsNonRoot: true
-        runAsUser: 65532
+      
   workspaces:
     - name: source
     - name: manifest-dir

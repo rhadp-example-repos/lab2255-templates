@@ -13,23 +13,37 @@ spec:
       description: "the conponent_id the job belongs to"
       type: string
       default: ""
-    # repo parameters
-    - name: source-repo
-      description: "source repo that contains the application code"
+    # aib build parameters
+    - name: manifest-file
+      description: "manifest file to build"
       type: string
-      default: ""
-    - name: source-branch
-      description: "source branch to build from"
+      default: "manifests/simple.aib.yml"
+    - name: distro
       type: string
-      default: ""
-    - name: tag
+      default: "autosd9"
+    - name: arch
       type: string
-      default: ""
+      default: "aarch64"
+    - name: target
+      type: string
+      default: "qemu"
+    - name: mode
+      type: string
+      default: "package"
+    - name: export_format
+      type: string
+      default: "qcow2"
+    
     - name: container-image
       description: "aib container"
       type: string
       default: "quay.io/centos-sig-automotive/automotive-osbuild:latest"
-    
+  
+  results:
+    - description: Name of the image built
+      name: os-image-name
+      type: string  
+  
   steps:
     - name: aib-build
       image: $(params.container-image)
@@ -38,57 +52,50 @@ spec:
 
         set -eux
 
-        osbuildPath="/usr/bin/osbuild"
-        storePath="/_build"
-        runTmp="/run/osbuild/"
+        OSBUILD_PATH="/usr/bin/osbuild"
+        STORE_PATH="/_build"
+        RUN_TMP_PATH="/run/osbuild/"
 
-        mkdir -p "$storePath"
-        mkdir -p "$runTmp"
+        mkdir -p "$STORE_PATH"
+        mkdir -p "$RUN_TMP_PATH"
 
-        if mountpoint -q "$osbuildPath"; then
+        if mountpoint -q "$OSBUILD_PATH"; then
             exit 0
         fi
 
-        rootType="system_u:object_r:root_t:s0"
-        chcon "$rootType" "$storePath"
+        ROOT_TYPE="system_u:object_r:root_t:s0"
+        chcon "$ROOT_TYPE" "$STORE_PATH"
 
-        installType="system_u:object_r:install_exec_t:s0"
-        if ! mountpoint -q "$runTmp"; then
-          mount -t tmpfs tmpfs "$runTmp"
+        INSTALL_TYPE="system_u:object_r:install_exec_t:s0"
+        if ! mountpoint -q "$RUN_TMP_PATH"; then
+          mount -t tmpfs tmpfs "$RUN_TMP_PATH"
         fi
 
-        destPath="$runTmp/osbuild"
-        cp -p "$osbuildPath" "$destPath"
-        chcon "$installType" "$destPath"
+        DEST_PATH="$RUN_TMP_PATH/osbuild"
+        cp -p "$OSBUILD_PATH" "$DEST_PATH"
+        chcon "$INSTALL_TYPE" "$DEST_PATH"
 
-        mount --bind "$destPath" "$osbuildPath"
+        mount --bind "$DEST_PATH" "$OSBUILD_PATH"
 
         cd $(workspaces.source.path)
 
-        # hardcoded for now
-        distro="autosd9" 
-        arch="aarch64" 
-        target="qemu" 
-        mode="package" 
-        export_format="qcow2"
-        MANIFEST_FILE=$(workspaces.source.path)/manifests/simple.aib.yml
-        # end hardcoded
-
+        MANIFEST_FILE=$(workspaces.source.path)/$(params.manifest-file)
+        
         # Determine file extension
-        if [ "$export_format" = "image" ]; then
+        if [ "$(params.export_format)" = "image" ]; then
           file_extension=".raw"
-        elif [ "$export_format" = "qcow2" ]; then
+        elif [ "$(params.export_format)" = "qcow2" ]; then
           file_extension=".qcow2"
         else
-          file_extension=".$export_format"
+          file_extension=".$(params.export_format)"
         fi
 
-        cleanName=$distro-$target
-        exportFile=${cleanName}${file_extension}
+        CANONICAL_NAME=$(params.distro)-$(params.target)
+        EXPORT_FILE_NAME=${CANONICAL_NAME}${file_extension}
 
-        mode_param=""
-        if [ -n "$mode" ]; then
-          mode_param="--mode $mode"
+        MODE_PARAM=""
+        if [ -n "$(params.mode)" ]; then
+          MODE_PARAM="--mode $(params.mode)"
         fi
 
         CUSTOM_DEFS=""
@@ -104,42 +111,37 @@ spec:
           echo "No custom-definitions.env file found"
         fi
 
-        build_command="automotive-image-builder --verbose \
-          build \
+        OSBUILD_CMD="automotive-image-builder --verbose build \
           $CUSTOM_DEFS \
-          --distro $distro \
-          --target $target \
-          --arch=$arch \
+          --distro $(params.distro) --target $(params.target) --arch=$(params.arch) \
           --build-dir=/output/_build \
-          --export $export_format \
-          --osbuild-manifest=/output/image.json \
-          $mode_param \
+          --export $(params.export_format) \
+          --osbuild-manifest=/output/build.json \
+          $MODE_PARAM \
           $MANIFEST_FILE \
-          /output/${exportFile}"
+          /output/${EXPORT_FILE_NAME}"
 
-        echo "Running the build command: $build_command"
-        $build_command
+        echo "Running the build command: $OSBUILD_CMD"
+        $OSBUILD_CMD
 
         pushd /output
-        ln -sf ./${exportFile} ./disk.img
+        ln -sf ./${EXPORT_FILE_NAME} ./disk.img
 
-        echo "copying build artifacts to shared workspace..."
+        # copying build artifacts to shared workspace...
 
         mkdir -p $(workspaces.source.path)/binaries
         
-        cp -v /output/${exportFile} $(workspaces.source.path)/binaries/ || echo "Failed to copy ${exportFile}"
+        cp -v /output/${EXPORT_FILE_NAME} $(workspaces.source.path)/binaries/ || echo "Failed to copy ${EXPORT_FILE_NAME}"
 
-        cp -vL /output/disk.img $(workspaces.source.path)/binaries/${cleanName}${file_extension} || echo "Failed to copy disk.img"
+        cp -vL /output/disk.img $(workspaces.source.path)/binaries/${CANONICAL_NAME}${file_extension} || echo "Failed to copy disk.img"
 
         pushd $(workspaces.source.path)
-        ln -sf ${exportFile} disk.img
+        ln -sf ${EXPORT_FILE_NAME} disk.img
         popd
 
-        cp -v /output/image.json $(workspaces.source.path)/binaries/image.json || echo "Failed to copy image.json"
+        cp -v /output/build.json $(workspaces.source.path)/binaries/build.json || echo "Failed to copy build.json"
 
-        echo "Contents of shared workspace:"
-        ls -la $(workspaces.source.path)/
-        ls -la $(workspaces.source.path)/binaries
+        echo -n "$EXPORT_FILE_NAME" > $(results.os-image-name.path)
 
       securityContext:
         capabilities: {}

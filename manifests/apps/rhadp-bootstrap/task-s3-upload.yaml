@@ -13,10 +13,10 @@ spec:
       description: "The conponent_id the job belongs to"
       type: string
       default: ""
-    - name: image_name
+    - name: os_image_name
       description: "The name of the image"
       type: string
-      default: "autosd9-qemu.qcow2" # TODO remove this default
+      default: ""
     # s3 parameters
     - name: bucket_name
       description: "The S3 bucket name"
@@ -69,9 +69,9 @@ spec:
 
         # run the script
         python "$(workspaces.source.path)/$(params.scripts-location)/$(params.script)" \
-          $(workspaces.source.path)/binaries/$(params.image_name) \
+          $(workspaces.source.path)/binaries/$(params.os_image_name) \
           -b $(params.bucket_name) \
-          -d $(params.component_id)/$(params.job_id)_$(params.image_name) \
+          -d $(params.component_id)/$(params.job_id)_$(params.os_image_name) \
 
   workspaces:
     - name: source

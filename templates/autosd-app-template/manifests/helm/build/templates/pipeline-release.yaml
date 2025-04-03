@@ -19,6 +19,9 @@ spec:
     - description: Component id
       name: component-id
       type: string
+    - name: build-stage
+      description: Stage of the build process
+      type: string
   tasks:
     - name: git-clone
       params:

@@ -31,6 +31,8 @@ spec:
             value: $(tt.params.output-image)
           - name: component-id
             value: {{ .Values.app.name }}
+          - name: build-stage
+            value: "default"
         pipelineRef:
           name: {{ .Values.app.name }}-build
         serviceAccountName: pipeline
