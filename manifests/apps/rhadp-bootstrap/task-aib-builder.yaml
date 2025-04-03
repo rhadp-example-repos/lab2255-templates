@@ -62,8 +62,6 @@ spec:
 
         set -eux
 
-        pwd
-
         ls -la /workspace/source
       
       securityContext:

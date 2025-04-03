@@ -1,5 +1,5 @@
 ---
-apiVersion: triggers.tekton.dev/v1alpha1 # TODO upgrade to v1beta1
+apiVersion: triggers.tekton.dev/v1beta1
 kind: TriggerTemplate
 metadata:
   name: {{ .Values.app.name }}-run-tag
@@ -54,8 +54,8 @@ spec:
                 resources:
                   requests:
                     storage: 10Gi
-          - emptyDir: {}
-            name: maven-settings
+          #- emptyDir: {}
+          #  name: maven-settings
 {{- if eq .Values.image.registry "Quay" }}
           - name: docker-config
             secret:
