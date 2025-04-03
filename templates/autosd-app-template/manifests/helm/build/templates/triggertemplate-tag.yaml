@@ -1,5 +1,5 @@
 ---
-apiVersion: triggers.tekton.dev/v1alpha1
+apiVersion: triggers.tekton.dev/v1alpha1 # TODO upgrade to v1beta1
 kind: TriggerTemplate
 metadata:
   name: {{ .Values.app.name }}-run-tag
@@ -36,15 +36,24 @@ spec:
           name: {{ .Values.app.name }}-test
         serviceAccountName: pipeline
         timeout: 1h0m0s
+        podTemplate:
+          nodeSelector:
+            kubernetes.io/arch: arm64
+          tolerations:
+          - key: "metal"
+            operator: "Equal"
+            value: "true"
+            effect: "NoSchedule"
         workspaces:
           - name: source-folder
             volumeClaimTemplate:
               spec:
                 accessModes:
                   - ReadWriteOnce
+                storageClassName: gp3-csi
                 resources:
                   requests:
-                    storage: 1Gi
+                    storage: 10Gi
           - emptyDir: {}
             name: maven-settings
 {{- if eq .Values.image.registry "Quay" }}

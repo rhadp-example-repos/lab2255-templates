@@ -1,5 +1,5 @@
 ---
-apiVersion: triggers.tekton.dev/v1alpha1
+apiVersion: triggers.tekton.dev/v1alpha1 # TODO upgrade to v1beta1
 kind: TriggerTemplate
 metadata:
   name: {{ .Values.app.name }}-run-build
@@ -43,7 +43,7 @@ spec:
                   - ReadWriteOnce
                 resources:
                   requests:
-                    storage: 1Gi
+                    storage: 2Gi
           - emptyDir: {}
             name: maven-settings
 {{- if eq .Values.image.registry "Quay" }}

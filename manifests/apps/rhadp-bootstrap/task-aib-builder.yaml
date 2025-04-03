@@ -66,11 +66,11 @@ spec:
 
         ls -la /workspace/source
       
-      #securityContext:
-      #  capabilities: {}
-      #  privileged: true
-      #  seLinuxOptions:
-      #    type: unconfined_t
+      securityContext:
+        capabilities: {}
+        privileged: true
+        seLinuxOptions:
+          type: unconfined_t
       #volumeMounts:
       #  - mountPath: /_build
       #    name: build-dir

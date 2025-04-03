@@ -1,5 +1,5 @@
 ---
-apiVersion: triggers.tekton.dev/v1alpha1
+apiVersion: triggers.tekton.dev/v1alpha1 # TODO upgrade to v1beta1
 kind: EventListener
 metadata:
   name: {{ .Values.app.name }}-el
