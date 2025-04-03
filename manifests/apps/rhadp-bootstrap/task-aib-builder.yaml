@@ -71,18 +71,31 @@ spec:
       #  privileged: true
       #  seLinuxOptions:
       #    type: unconfined_t
-      volumeMounts:
-        - mountPath: /_build
-          name: build-dir
-        - mountPath: /output
-          name: output-dir
-        - mountPath: /run/osbuild
-          name: run-dir
-        - mountPath: /dev
-          name: dev
-        - mountPath: /manifest-work
-          name: manifest-work
+      #volumeMounts:
+      #  - mountPath: /_build
+      #    name: build-dir
+      #  - mountPath: /output
+      #    name: output-dir
+      #  - mountPath: /run/osbuild
+      #    name: run-dir
+      #  - mountPath: /dev
+      #    name: dev
+      #  - mountPath: /manifest-work
+      #    name: manifest-work
   
+  #volumes:
+  #  - emptyDir: {}
+  #    name: manifest-work
+  #  - emptyDir: {}
+  #    name: build-dir
+  #  - emptyDir: {}
+  #    name: output-dir
+  #  - emptyDir: {}
+  #    name: run-dir
+  #  - hostPath:
+  #      path: /dev
+  #    name: dev
+
   #podTemplate:
   #  nodeSelector:
   #    kubernetes.io/arch: arm64
