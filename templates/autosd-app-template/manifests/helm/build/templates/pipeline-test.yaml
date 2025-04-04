@@ -38,13 +38,11 @@ spec:
     
     - name: prepare-build
       params:
-        #- name: job_id
-        #  value: $(params.source-branch)
-        #- name: component_id
-        #  value: $(params.component-id)
+        - name: build-stage
+          value: $(params.build-stage)
       taskRef:
         kind: ClusterTask
-        name: noop
+        name: parse-aib-ci
       runAfter:
         - git-clone
       workspaces:
@@ -57,6 +55,19 @@ spec:
           value: $(params.source-branch)
         - name: component_id
           value: $(params.component-id)
+        - name: manifest-file
+          value: $(tasks.prepare-build.results.manifest-file)
+        - name: distro
+          value: $(tasks.prepare-build.results.distro)
+        - name: arch
+          value: $(tasks.prepare-build.results.arch)
+        - name: target
+          value: $(tasks.prepare-build.results.target)
+        - name: mode
+          value: $(tasks.prepare-build.results.mode)
+        - name: export_format
+          value: $(tasks.prepare-build.results.export_format)
+          
       taskRef:
         kind: ClusterTask
         name: aib-builder-task

@@ -4,7 +4,7 @@ default:
   name: ffi
   
   # how to build the artifact
-  manifest: ffi.aib.yml # has to be relative to ./manifests/
+  manifest: manifests/ffi.aib.yml 
 
   # list of parameters for the automotive-image-builder
   spec:
@@ -14,7 +14,7 @@ default:
     mode: package # package image
     export_format: qcow2 # image qcow2 container
 
-# TODO: other targets can be added to the file. possible values are: test, build, publish
+# TODO: other targets can be added to the file. possible values are: test, validate
 test:
   # values in this section override the default values above
   spec:

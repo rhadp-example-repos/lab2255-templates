@@ -24,12 +24,9 @@ def upload_to_s3(source_file, bucket_name, destination_key=None):
         destination_key = os.path.basename(source_file)
     
     try:
-        print(f"Uploading {source_file} to s3://{bucket_name}/{destination_key}")
         s3_client.upload_file(source_file, bucket_name, destination_key)
-        print(f"Upload successful")
         return True
     except Exception as e:
-        print(f"Error uploading file to S3: {str(e)}")
         return False
 
 def main():
