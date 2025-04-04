@@ -29,11 +29,11 @@ spec:
       default: "aws-credentials"
     # scripts configuration
     - name: script
-      description: "Script to run"
+      description: "Script to be executed"
       type: string
       default: "s3-upload.py"
     - name: scripts-location
-      description: "Location of the scripts, relative to the source directory"
+      description: "Location of the script, relative to the source directory"
       type: string
       default: "scripts"
 

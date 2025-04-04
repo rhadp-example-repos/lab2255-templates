@@ -3,7 +3,7 @@ apiVersion: tekton.dev/v1beta1
 metadata:
   name: tag-image
 spec:
-  description: Nothing to do
+  description: Tag an image in a registry
   params:
     - name: source-image-tag
       description: URL of the image to be copied to the destination registry
