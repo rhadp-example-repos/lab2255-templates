@@ -4,13 +4,13 @@ default:
   name: ffi
   
   # how to build the artifact
-  manifest: manifests/ffi.aib.yml 
+  manifest: manifests/simple.aib.yml 
 
   # list of parameters for the automotive-image-builder
   spec:
     distro: autosd9  # autosd cs9
     arch: aarch64 # aarch64 x86_64
-    target: qemu # rpi4 qemu
+    target: rpi4 # rpi4 qemu
     mode: package # package image
     export_format: qcow2 # image qcow2 container
 
