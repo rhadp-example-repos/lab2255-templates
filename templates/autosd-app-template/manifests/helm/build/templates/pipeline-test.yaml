@@ -96,25 +96,40 @@ spec:
         - name: source
           workspace: source-folder
 
-    - name: jmp-flash-qemu
+    - name: jmp-setup-client
       taskRef:
         kind: ClusterTask
-        name: noop
+        name: jumpstarter-setup-client
       runAfter:
         - cdn-upload
+      params:
+        - name: endpoint
+          value: ${{ .Values.jumpstarter.host }}
+        - name: namespace
+          value: jumpstarter-qemu-exporter
+        - name: name
+          value: {{ .Values.app.name }}-build
       workspaces:
-        - name: source
+        - name: config-dir
           workspace: source-folder
+          subPath: .jumpstarter
 
     - name: jmp-test
       taskRef:
         kind: ClusterTask
-        name: noop
+        name: jumpstarter-run-script
       runAfter:
-        - jmp-flash-qemu
+        - jmp-setup-client
+      params:
+        - name: selector
+          value: example.com/board=qemu
+        - name: script
+          value: |
+            j
       workspaces:
-        - name: source
+        - name: config-dir
           workspace: source-folder
+          subPath: .jumpstarter
 
   workspaces:
     - name: source-folder
