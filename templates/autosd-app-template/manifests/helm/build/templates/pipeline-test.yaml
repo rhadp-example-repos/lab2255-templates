@@ -76,7 +76,9 @@ spec:
       workspaces:
         - name: source
           workspace: source-folder
-
+        - name: dockerconfig
+          workspace: docker-config
+          
     - name: cdn-upload
       params:
         - name: job_id

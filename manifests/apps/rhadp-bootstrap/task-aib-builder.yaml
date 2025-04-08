@@ -79,6 +79,27 @@ spec:
 
         cd $(workspaces.source.path)
 
+        # podman credentials
+        if [[ "$(workspaces.dockerconfig.bound)" == "true" ]]; then
+
+          # if config.json exists at workspace root, we use that
+          if test -f "$(workspaces.dockerconfig.path)/config.json"; then
+            export DOCKER_CONFIG="$(workspaces.dockerconfig.path)"
+
+          # else we look for .dockerconfigjson at the root
+          elif test -f "$(workspaces.dockerconfig.path)/.dockerconfigjson"; then
+            cp "$(workspaces.dockerconfig.path)/.dockerconfigjson" "$HOME/.docker/config.json"
+            export DOCKER_CONFIG="$HOME/.docker"
+
+          # need to error out if neither files are present
+          else
+            echo "neither 'config.json' nor '.dockerconfigjson' found at workspace root"
+            exit 1
+          fi
+        fi
+
+        # build the image
+
         MANIFEST_FILE=$(workspaces.source.path)/$(params.manifest-file)
         
         # Determine file extension
@@ -171,3 +192,6 @@ spec:
 
   workspaces:
     - name: source
+    - name: dockerconfig
+      description: Includes a docker `config.json`
+      optional: true
