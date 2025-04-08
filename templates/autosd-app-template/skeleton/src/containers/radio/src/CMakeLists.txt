@@ -4,8 +4,9 @@ cmake_minimum_required (VERSION 2.10)
 
 include(GNUInstallDirs)
 
-find_package (vsomeip3 2.6.0 REQUIRED)
-find_package( Boost 1.55 COMPONENTS system thread log REQUIRED )
+find_package(vsomeip3 2.6.0 REQUIRED)
+find_package(automotive-dlt REQUIRED)
+find_package(Boost 1.55 COMPONENTS system thread log REQUIRED)
 
 set (INSTALL_LIB_DIR ${CMAKE_INSTALL_LIBDIR} CACHE PATH "Installation directory for libraries")
 set (INSTALL_BIN_DIR ${CMAKE_INSTALL_BINDIR} CACHE PATH "Installation directory for executables")
@@ -21,7 +22,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
 add_executable(radio-service radio-service.cpp services.hpp radio-stations.cpp)
-target_link_libraries(radio-service  vsomeip3 ${Boost_LIBRARIES})
+target_link_libraries(radio-service vsomeip3 ${Boost_LIBRARIES})
+target_link_libraries(radio-service Genivi::dlt)
 
 add_executable(radio-client radio-client.cpp services.hpp)
 target_link_libraries(radio-client  vsomeip3 ${Boost_LIBRARIES})

@@ -10,9 +10,12 @@
 using namespace std::literals::chrono_literals;
 
 #include <vsomeip/vsomeip.hpp>
+#include <dlt/dlt.h>
 
 #include "services.hpp"
 #include "radio-stations.hpp"
+
+DLT_DECLARE_CONTEXT(ctx);
 
 class radio_service {
 public:
@@ -165,6 +168,7 @@ public:
         std::chrono::time_point<std::chrono::system_clock> next_song_at;
         std::unique_lock<std::mutex> its_lock(main_mutex);
         std::cout << "RADIO: Started main thread" << std::endl;
+        DLT_LOG(ctx, DLT_LOG_INFO, DLT_CSTRING("RADIO: Started main thread"));
 
         offer();
 
@@ -206,6 +210,7 @@ public:
             if (next_playing) {
                 if (!currently_playing) {
                     std::cout << "RADIO: Started playing" << std::endl;
+                    DLT_LOG(ctx, DLT_LOG_INFO, DLT_CSTRING("RADIO: Started playing"));
                     goto_next_song = true;
                 }
                 currently_playing = true;
@@ -229,10 +234,16 @@ public:
                               << " (on " << station_info->name << ") "
                               << std::dec << current_volume << "% volume"
                               << std::endl;
+                    DLT_LOG(ctx, DLT_LOG_INFO, DLT_STRING("Name: "), DLT_STRING(song->name),
+                                               DLT_STRING(", Artist: "), DLT_STRING(song->artist),
+                                               DLT_STRING(", Station: "), DLT_STRING(station_info->name),
+                                               DLT_STRING(", Volume: "), DLT_UINT32(current_volume)
+                    );
                 }
             } else {
                 if (currently_playing)
                     std::cout << "RADIO: Paused playing" << std::endl;
+                    DLT_LOG(ctx, DLT_LOG_INFO, DLT_CSTRING("RADIO: Paused playing"));
                 app->notify(RADIO_SERVICE_ID, RADIO_INSTANCE_ID, RADIO_SONG_EVENT_ID, payload_with_string ("-off-"));
                 app->notify(RADIO_SERVICE_ID, RADIO_INSTANCE_ID, RADIO_ARTIST_EVENT_ID, payload_with_string (""));
                 currently_playing = false;
@@ -420,6 +431,9 @@ static void handle_signal(int _signal) {
 }
 
 int main() {
+    DLT_REGISTER_APP("RDIO", "Radio Service");
+    DLT_REGISTER_CONTEXT(ctx, "MAIN", "Radio Service Main Logging Context");
+
     radio_service its_radio;
 
     its_radio_ptr = &its_radio;
@@ -433,5 +447,7 @@ int main() {
     its_radio.start();
 
     // Work around dlt-daemon timeout on exit
+    DLT_UNREGISTER_CONTEXT(ctx);
+    DLT_UNREGISTER_APP();
     _exit(0);
 }
