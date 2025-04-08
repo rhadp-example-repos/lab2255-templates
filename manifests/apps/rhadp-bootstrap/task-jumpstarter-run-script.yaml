@@ -19,6 +19,7 @@ spec:
         #!/usr/bin/env bash
 
         export JMP_CLIENT_CONFIG_HOME=$(workspaces.config-dir.path)
+        export JUMPSTARTER_GRPC_INSECURE=1
 
         jmp shell --selector $(params.selector) <<EOF
           $(params.script)
