@@ -6,4 +6,5 @@ routingmanagerd > /var/log/routingmanagerd.log 2>&1 &
 # engine-service > /var/log/engine.log 2>&1 &
 radio-service > /var/log/radio.log 2>&1 &
 #/radio-client
-/bin/bash
+socat TCP-LISTEN:8000,reuseaddr,fork EXEC:radio-client,pty
+# socat -,raw,echo=0 TCP-CONNECT:127.0.0.1:8000

@@ -9,6 +9,7 @@ RUN dnf install -y --releasever 9 --nogpgcheck \
     cmake \
     make \
     g++ \
+    socat \
     vsomeip3 \
     vsomeip3-devel \
     vsomeip3-routingmanager \
