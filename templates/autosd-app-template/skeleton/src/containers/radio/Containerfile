@@ -1,0 +1,33 @@
+FROM quay.io/centos/centos:stream9-development
+
+# Enable required repositories
+RUN dnf install -y 'dnf-command(config-manager)' && \
+    dnf copr -y enable alexl/cs9-sample-images centos-stream-9 && \
+    dnf install -y --nogpgcheck epel-release epel-next-release
+
+RUN dnf install -y --releasever 9 --nogpgcheck \
+    cmake \
+    make \
+    g++ \
+    vsomeip3 \
+    vsomeip3-devel \
+    vsomeip3-routingmanager \
+    dlt-daemon \
+    boost-devel \
+    boost-system \
+    boost-thread \
+    boost-log \
+    boost-chrono \
+    boost-date-time \
+    boost-atomic \
+    boost-filesystem \
+    boost-regex && \
+    dnf clean all
+
+COPY src /opt/src
+
+RUN cmake -S /opt/src -B /opt/build && make -C /opt/build install
+
+COPY entrypoint.sh /usr/local/bin/
+
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
