@@ -11,6 +11,7 @@ git:
   host: ${{ values.repository_host }}
   token: ''
   webhookSecret: ''
+  pacWebhookSecret: ''
 
 image:
   registry: ${{values.image_registry}}
