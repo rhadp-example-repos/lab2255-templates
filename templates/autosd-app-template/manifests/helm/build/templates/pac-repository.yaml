@@ -12,12 +12,12 @@ spec:
   git_provider:
     # url: "https://gitlab.example.com/ # Set this if you are using a private GitLab instance
     secret:
-      name: "{{ .Values.app.name }}-external-git-token"
+      name: "{{ .Values.app.name }}-git-token"
       # Set this if you have a different key in your secret
       # key: "provider.token"
       key: "token"
     webhook_secret:
-      name: "{{ .Values.app.name }}-external-webhook-secret"
+      name: "{{ .Values.app.name }}-webhook-secret"
       # Set this if you have a different key in your secret
       # key: "webhook.secret"
       key: "secret"
