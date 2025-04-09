@@ -3,6 +3,8 @@ app:
   namespace: ${{values.component_id}}-dev
   cluster: ${{ values.cluster }}
 
+user: ${{ values.user }}
+
 git:
   branch: main
   repo: ${{ values.source_repository }}
