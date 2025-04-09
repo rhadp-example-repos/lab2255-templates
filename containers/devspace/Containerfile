@@ -1,0 +1,39 @@
+FROM ghcr.io/astral-sh/uv:latest AS uv
+
+FROM quay.io/centos/centos:stream9
+COPY --from=uv /uv /uvx /bin/
+RUN dnf install -y \
+      epel-release && \
+    dnf install -y \
+      compat-openssl11 \
+      libbrotli \
+      python3.12 \
+      cmake \
+      make \
+      g++ \
+      git \
+      socat \
+      vsomeip3 \
+      vsomeip3-devel \
+      vsomeip3-routingmanager \
+      dlt-daemon \
+      dlt-tools \
+      dlt-libs \
+      dlt-libs-devel \
+      boost-devel \
+      boost-system \
+      boost-thread \
+      boost-log \
+      boost-chrono \
+      boost-date-time \
+      boost-atomic \
+      boost-filesystem \
+      boost-regex \
+      && dnf clean all \
+      && rm -rf /var/cache/dnf
+
+ENV UV_PYTHON=python3.12 VIRTUAL_ENV=/jumpstarter
+RUN uv venv /jumpstarter && \
+    uv pip install \
+      "git+https://github.com/jumpstarter-dev/jumpstarter#subdirectory=packages/jumpstarter-all"
+ENV PATH="/jumpstarter/bin:$PATH"
