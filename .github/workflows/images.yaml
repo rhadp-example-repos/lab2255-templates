@@ -1,9 +1,12 @@
 name: Build container images
 on:
-  push:
+  workflow_dispatch:
   pull_request:
     branches:
-      - 'master'
+      - 'main'
+  push:
+    branches:
+      - 'main'
 jobs:
   build-devspace-image:
     runs-on: ubuntu-latest
@@ -27,7 +30,6 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-
   build-exporter-image:
     runs-on: ubuntu-24.04-arm
     permissions:
