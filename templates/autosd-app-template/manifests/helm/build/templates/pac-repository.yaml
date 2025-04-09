@@ -7,7 +7,7 @@ metadata:
     type: pipelines
     backstage.io/kubernetes-id: {{ .Values.app.name }}
 spec:
-  url: "{{ .Values.git.host }}/{{ .Values.git.project }}"
+  url: "{{ .Values.git.pacRepo }}"
   concurrency_limit: 2
   git_provider:
     # url: "https://gitlab.example.com/ # Set this if you are using a private GitLab instance

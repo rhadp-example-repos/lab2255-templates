@@ -6,6 +6,7 @@ app:
 git:
   branch: main
   repo: ${{ values.source_repository }}
+  pacRepo: ${{ values.source_repository_pac }}
   org: ${{ values.git_owner }}
   name: ${{ values.repository_name }}
   host: ${{ values.repository_host }}

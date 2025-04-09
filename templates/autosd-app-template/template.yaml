@@ -123,6 +123,7 @@ spec:
           description: ${{ parameters.description }}
           destination: https://gitlab-gitlab.apps.cluster-${{ parameters.guid }}.${{ parameters.guid }}.${{ parameters.base_domain }}/${{ parameters.repo.owner }}/${{parameters.component_id}}-gitops.git
           source_repository: https://gitlab-gitlab.apps.cluster-${{ parameters.guid }}.${{ parameters.guid }}.${{ parameters.base_domain }}/${{ parameters.repo.owner }}/${{parameters.component_id}}.git
+          source_repository_pac: https://gitlab-gitlab.apps.cluster-${{ parameters.guid }}.${{ parameters.guid }}.${{ parameters.base_domain }}/${{ parameters.repo.owner }}/${{parameters.component_id}}
           repository_name: ${{parameters.component_id}}
           git_owner: ${{ parameters.repo.owner }}
           cluster: .apps.cluster-${{ parameters.guid }}.${{ parameters.guid }}.${{ parameters.base_domain }}
