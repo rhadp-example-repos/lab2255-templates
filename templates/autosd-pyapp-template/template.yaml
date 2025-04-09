@@ -2,7 +2,7 @@ apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
   name: autosd-pyapp-template
-  title: AutoSD Sample Application
+  title: AutoSD FFI Sample Application
   description: Demonstrates how AutoSD effectively constrains the memory usage in the QM partition.
   tags:
     - automotive

@@ -3,7 +3,7 @@ kind: Template
 metadata:
   name: autosd-app-template
   title: AutoSD Sample Application
-  description: Demonstrates how AutoSD effectively constrains the memory usage in the QM partition.
+  description: Applications that demonstrate how typical automotive applications use SOME/IP to talk to each other.
   tags:
     - automotive
     - autosd
@@ -27,7 +27,7 @@ spec:
         description:
           title: Description
           type: string
-          default: Demonstrates how AutoSD effectively constrains the memory usage in the QM partition.
+          default: Applications that demonstrate how typical automotive applications use SOME/IP to talk to each other.
           description: Help others understand what this build is for.
 
     - title: Source Code Repository and Container Registry Information
