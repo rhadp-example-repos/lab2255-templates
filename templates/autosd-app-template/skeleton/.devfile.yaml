@@ -8,7 +8,7 @@ metadata:
 components:
   - name: runtime
     container:
-      image: quay.io/jumpstarter-dev/jumpstarter-devspace:latest
+      image: quay.io/jumpstarter-dev/summit-devspace:main
       memoryLimit: "4Gi"
       memoryRequest: "1Gi"
       cpuLimit: "4"
@@ -17,6 +17,21 @@ components:
       env:
         - name: JUMPSTARTER_GRPC_INSECURE
           value: "1"
+      volumeMounts:
+        - name: run-vsomeip
+          path: /run/vsomeip
+  - name: routingmanagerd
+    container:
+      image: quay.io/jumpstarter-dev/summit-devspace:main
+      command:
+        - routingmanagerd
+      volumeMounts:
+        - name: run-vsomeip
+          path: /run/vsomeip
+  - name: run-vsomeip
+    volume:
+      ephemeral: true
+      size: 1Gi
 commands:
   - id: configure-jumpstarter-client
     exec:
