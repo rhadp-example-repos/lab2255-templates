@@ -1,0 +1,23 @@
+# each .aib-ci.yml file needs at minimum a 'default' section
+default:
+  # the name of the artifact
+  name: ffi
+  
+  # how to build the artifact
+  manifest: manifests/simple.aib.yml 
+
+  # list of parameters for the automotive-image-builder
+  spec:
+    distro: autosd9  # autosd cs9
+    arch: aarch64 # aarch64 x86_64
+    target: rpi4 # rpi4 qemu
+    mode: package # package image
+    export_format: qcow2 # image qcow2 container
+
+# TODO: other targets can be added to the file. possible values are: test, validate
+test:
+  # values in this section override the default values above
+  spec:
+    target: qemu
+    mode: image
+    export_format: qcow2

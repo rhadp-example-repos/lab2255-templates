@@ -18,10 +18,7 @@ metadata:
     - rhivos
   links:
     - url: https://devspaces${{values.cluster}}/#https://${{values.host}}/${{values.destination}}
-      title: "DevSpace ${{values.component_id}}"
-      icon: web
-    - url: https://devspaces${{values.cluster}}
-      title: OpenShift DevSpaces Workspaces
+      title: OpenShift DevSpaces (VS Code)
       icon: web
 spec:
   type: service
