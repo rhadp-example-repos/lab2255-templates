@@ -40,12 +40,12 @@ spec:
         - name: output
           workspace: source-folder
 
-    - name: build-server
+    - name: build-container
       params:
         - name: IMAGE
           value: $(params.output-image):$(params.source-branch)-server
         - name: CONTEXT
-          value: ./src/containers/ffi_server
+          value: ./src
         - name: DOCKERFILE
           value: ./Containerfile
       runAfter:
@@ -59,48 +59,14 @@ spec:
         - name: dockerconfig
           workspace: docker-config
 
-    - name: tag-server
+    - name: tag-container
       params:
         - name: source-image-tag
-          value: $(params.output-image):$(params.source-branch)-server
+          value: $(params.output-image):$(params.source-branch)
         - name: target-image-tag
-          value: $(params.output-image):latest-server
+          value: $(params.output-image):latest
       runAfter:
-        - build-server
-      taskRef:
-        kind: ClusterTask
-        name: tag-image
-      workspaces:
-        - name: dockerconfig
-          workspace: docker-config
-        
-    - name: build-client
-      params:
-        - name: IMAGE
-          value: $(params.output-image):$(params.source-branch)-client
-        - name: CONTEXT
-          value: ./src/containers/ffi_client
-        - name: DOCKERFILE
-          value: ./Containerfile
-      runAfter:
-        - git-clone
-      taskRef:
-        kind: ClusterTask
-        name: buildah
-      workspaces:
-        - name: source
-          workspace: source-folder
-        - name: dockerconfig
-          workspace: docker-config
-
-    - name: tag-client
-      params:
-        - name: source-image-tag
-          value: $(params.output-image):$(params.source-branch)-client
-        - name: target-image-tag
-          value: $(params.output-image):latest-client
-      runAfter:
-        - build-client
+        - build-container
       taskRef:
         kind: ClusterTask
         name: tag-image
@@ -113,8 +79,7 @@ spec:
         - name: COMPONENT_ID
           value: $(params.component-id)
       runAfter:
-        - tag-server
-        - tag-client
+        - tag-container
       taskRef:
         kind: Task
         name: resync

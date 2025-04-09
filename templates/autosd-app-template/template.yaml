@@ -20,7 +20,7 @@ spec:
         component_id:
           title: Name
           type: string
-          default: autosd-ffi
+          default: autosd-app
           description: Unique name of the project
           ui:field: EntityNamePicker
           maxLength: 23
