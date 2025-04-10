@@ -10,7 +10,7 @@ default:
   spec:
     distro: autosd9  # autosd cs9
     arch: aarch64 # aarch64 x86_64
-    target: rpi4 # rpi4 qemu
+    target: qemu # rpi4 qemu
     mode: package # package image
     export_format: qcow2 # image qcow2 container
 
