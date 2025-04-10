@@ -111,7 +111,7 @@ spec:
           kind: Task
           name: parse-aib-ci
         runAfter:
-          - tag-container
+          - fetch-repository
         workspaces:
           - name: source
             workspace: source-folder
@@ -136,6 +136,7 @@ spec:
           name: aib-builder-task
         runAfter:
           - prepare-build
+          - tag-container
         workspaces:
           - name: source
             workspace: source-folder
@@ -147,7 +148,7 @@ spec:
           name: jumpstarter-setup-sa-client
           kind: Task
         runAfter:
-          - automotive-image-builder
+          - fetch-repository
         params:
           - name: endpoint
             value: ${{ values.jumpstarter_host }} # templated in backstage
@@ -174,6 +175,7 @@ spec:
           name: jumpstarter-get-lease
         runAfter:
           - prepare-jumpstarter-credentials
+          - automotive-image-builder
         workspaces:
           - name: jumpstarter-client-secret
             workspace: source-folder
