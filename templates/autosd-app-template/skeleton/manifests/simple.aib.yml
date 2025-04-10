@@ -4,6 +4,7 @@ name: simple
 
 content:
   rpms:
+    - cloud-init
     - vim
 
 auth:
