@@ -80,7 +80,7 @@ spec:
         runAfter:
           - fetch-repository
         taskRef:
-          kind: ClusterTask
+          kind: Task
           name: buildah
         workspaces:
           - name: source

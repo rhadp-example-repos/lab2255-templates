@@ -135,7 +135,7 @@ spec:
         OSBUILD_CMD="automotive-image-builder --verbose build \
           $CUSTOM_DEFS \
           --distro $(params.distro) --target $(params.target) --arch=$(params.arch) \
-          --build-dir=/output/_build \
+          --build-dir=/_build \
           --export $(params.export_format) \
           --osbuild-manifest=/output/build.json \
           $MODE_PARAM \
@@ -180,7 +180,9 @@ spec:
           name: dev
   
   volumes:
-    - emptyDir: {}
+    - emptyDir:
+        medium: Memory
+        sizeLimit: 10Gi
       name: build-dir
     - emptyDir: {}
       name: output-dir
