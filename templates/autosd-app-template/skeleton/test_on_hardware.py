@@ -28,6 +28,8 @@ class TestOnHardware(JumpstarterTest):
             console.expect_exact("]$", timeout=10)
             print(console.before.decode())
 
+            console.sendline("systemctl status --no-pager radio.service")
+            console.expect_exact("]$", timeout=10)
             # console.sendline("podman images")
             # console.expect_exact("]$", timeout=10)
             # assert "localhost/app" in console.before.decode()

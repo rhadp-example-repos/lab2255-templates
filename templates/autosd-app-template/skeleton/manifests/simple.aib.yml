@@ -3,15 +3,35 @@
 name: simple
 
 content:
+  repos:
+    - id: epel
+      baseurl: https://dl.fedoraproject.org/pub/epel/9/Everything/$arch/
+
   rpms:
     - cloud-init
     - podman
+    - containernetworking-plugins
+    - vsomeip3-routingmanager
+    - dlt-daemon
+    - openssh-server
+    - openssh-clients
     - vim
 
   container_images:
     - source: ${{values.registry_host}}/${{values.registry_destination}} # templated in backstage
       tag: latest
       name: localhost/app
+
+  add_files:
+    - path: /etc/containers/systemd/radio.container
+      source_path: ../src/radio.container
+
+  systemd:
+    enabled_services:
+      # Enable ssh daemon
+      - sshd.service
+      # Enable the dlt daemon
+      - dlt
 
 auth:
   # "password"
