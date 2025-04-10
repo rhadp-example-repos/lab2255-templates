@@ -22,6 +22,8 @@ metadata:
     pipelinesascode.tekton.dev/task-3: ".tekton/tasks/jumpstarter-release-lease.yaml"
     pipelinesascode.tekton.dev/task-4: ".tekton/tasks/jumpstarter-setup-sa-client.yaml"
     pipelinesascode.tekton.dev/task-5: ".tekton/tasks/download.yaml"
+    pipelinesascode.tekton.dev/task-6: ".tekton/tasks/task-parse-aib-ci.yaml"
+    pipelinesascode.tekton.dev/task-7: ".tekton/tasks/task-aib-builder.yaml"
 
     # How many runs we want to keep.
     pipelinesascode.tekton.dev/max-keep-runs: "5"
