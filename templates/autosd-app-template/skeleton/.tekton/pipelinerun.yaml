@@ -36,25 +36,14 @@ spec:
     - name: revision
       value: "{{ revision }}"
 
-  taskRunSpecs:
-    - pipelineTaskName: build-container
-      taskPodTemplate:
-        nodeSelector:
-          kubernetes.io/arch: arm64
-        tolerations:
-          - key: "metal"
-            operator: "Equal"
-            value: "true"
-            effect: "NoSchedule"
-    - pipelineTaskName: automotive-image-builder
-      taskPodTemplate:
-        nodeSelector:
-          kubernetes.io/arch: arm64
-        tolerations:
-          - key: "metal"
-            operator: "Equal"
-            value: "true"
-            effect: "NoSchedule"
+  podTemplate:
+    nodeSelector:
+      kubernetes.io/arch: arm64
+    tolerations:
+      - key: "metal"
+        operator: "Equal"
+        value: "true"
+        effect: "NoSchedule"
 
   pipelineSpec:
     params:
