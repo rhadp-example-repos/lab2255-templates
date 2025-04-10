@@ -19,13 +19,15 @@ class TestOnHardware(JumpstarterTest):
         client.power.cycle()
         with client.console.pexpect() as console:
             console.logfile_read = sys.stdout.buffer
-            console.expect("login:", timeout=120)
+            console.expect_exact("login:", timeout=120)
             console.sendline(client.qemu.username) # this breaks the hardware abstraction, we need a constant
-            console.expect("Password:", timeout=10)
+            console.expect_exact("Password:", timeout=10)
             console.sendline(client.qemu.password) # same here!
-            console.expect("]\$", timeout=10)
+            console.expect_exact("]$", timeout=10)
             console.sendline("uname -a")
-            console.expect("]\$", timeout=10)
+            console.expect_exact("]$", timeout=10)
             print(console.before.decode())
 
-
+            console.sendline("podman images")
+            console.expect_exact("]$", timeout=10)
+            assert "localhost/app" in console.before.decode()

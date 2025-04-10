@@ -5,7 +5,13 @@ name: simple
 content:
   rpms:
     - cloud-init
+    - podman
     - vim
+
+  container_images:
+    - source: ${{values.registry_host}}/${{values.registry_destination}} # templated in backstage
+      tag: latest
+      name: localhost/app
 
 auth:
   # "password"
