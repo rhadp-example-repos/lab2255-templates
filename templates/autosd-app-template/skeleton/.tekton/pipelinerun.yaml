@@ -37,6 +37,15 @@ spec:
       value: "{{ revision }}"
 
   taskRunSpecs:
+    - pipelineTaskName: build-container
+      taskPodTemplate:
+        nodeSelector:
+          kubernetes.io/arch: arm64
+        tolerations:
+          - key: "metal"
+            operator: "Equal"
+            value: "true"
+            effect: "NoSchedule"
     - pipelineTaskName: automotive-image-builder
       taskPodTemplate:
         nodeSelector:
@@ -71,6 +80,40 @@ spec:
           - name: revision
             value: $(params.revision)
 
+      - name: build-container
+        params:
+          - name: IMAGE
+            value: ${{values.registry_host}}/${{values.registry_destination}}:$(params.revision) # templated in backstage
+          - name: CONTEXT
+            value: ./src
+          - name: DOCKERFILE
+            value: ./src/Containerfile
+        runAfter:
+          - fetch-repository
+        taskRef:
+          kind: ClusterTask
+          name: buildah
+        workspaces:
+          - name: source
+            workspace: source-folder
+          - name: dockerconfig
+            workspace: docker-config
+
+      - name: tag-container
+        params:
+          - name: source-image-tag
+            value: ${{values.registry_host}}/${{values.registry_destination}}:$(params.revision) # templated in backstage
+          - name: target-image-tag
+            value: ${{values.registry_host}}/${{values.registry_destination}}:latest # templated in backstage
+        runAfter:
+          - build-container
+        taskRef:
+          kind: Task
+          name: tag-image
+        workspaces:
+          - name: dockerconfig
+            workspace: docker-config
+
       - name: prepare-build
         params:
           - name: build-stage
@@ -79,7 +122,7 @@ spec:
           kind: Task
           name: parse-aib-ci
         runAfter:
-          - fetch-repository
+          - tag-container
         workspaces:
           - name: source
             workspace: source-folder
@@ -217,4 +260,6 @@ spec:
     secret:
       secretName: "{{ git_auth_secret }}"
 
-
+  - name: docker-config
+    secret:
+      secretName: ${{values.component_id}}-registry-creds # templated in backstage
