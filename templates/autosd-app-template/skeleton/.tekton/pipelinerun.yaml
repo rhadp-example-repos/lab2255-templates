@@ -68,7 +68,7 @@ spec:
           - name: namespace
             value: jumpstarter-qemu-exporter
           - name: name
-            value: ${{values.component_id}} # templated in backstage
+            value: ${{values.component_id}}-build # templated in backstage
           - name: insecure-tls
             value: "true"
         workspaces:
