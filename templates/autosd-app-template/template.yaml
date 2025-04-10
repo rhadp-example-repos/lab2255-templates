@@ -93,6 +93,7 @@ spec:
           cluster: .apps.cluster-${{ parameters.guid }}.${{ parameters.guid }}.${{ parameters.base_domain }}
           host: gitlab-gitlab.apps.cluster-${{ parameters.guid }}.${{ parameters.guid }}.${{ parameters.base_domain }}
           destination: ${{ parameters.repo.owner }}/${{ parameters.component_id }}
+          jumpstarter_host: grpc.apps.cluster-${{ parameters.guid }}.${{ parameters.guid }}.${{ parameters.base_domain }}:443
           registry_host: quay-${{ parameters.guid }}.apps.cluster-${{ parameters.guid }}.${{ parameters.guid }}.${{ parameters.base_domain }}
           registry_destination: ${{ parameters.registry.organization}}/${{ parameters.component_id }}
 
