@@ -17,7 +17,11 @@ metadata:
     # Fetch the git-clone task from hub, we are able to reference later on it
     # with taskRef and it will automatically be embedded into our pipeline.
     pipelinesascode.tekton.dev/task: "[git-clone]"
-    #pipelinesascode.tekton.dev/task-1: ".tekton/tasks/get-lease.yaml"
+    pipelinesascode.tekton.dev/task-1: ".tekton/tasks/jumpstarter-get-lease.yaml"
+    pipelinesascode.tekton.dev/task-2: ".tekton/tasks/jumpstarter-run-command.yaml"
+    pipelinesascode.tekton.dev/task-3: ".tekton/tasks/jumpstarter-release-lease.yaml"
+    pipelinesascode.tekton.dev/task-4: ".tekton/tasks/jumpstarter-setup-sa-client.yaml"
+    pipelinesascode.tekton.dev/task-5: ".tekton/tasks/download.yaml"
 
     # How many runs we want to keep.
     pipelinesascode.tekton.dev/max-keep-runs: "5"
@@ -36,18 +40,7 @@ spec:
     workspaces:
       - name: source-folder
       - name: basic-auth
-    # always try to release a lease if something goes wrong
-    finally:
-      # - name: release
-      #   params:
-      #     - name: jmp-lease-id
-      #       value: $(tasks.lease.results.jmp-lease-id)
-      #   taskRef:
-      #     kind: ClusterTask
-      #     name: jumpstarter-release-lease
-      #   workspaces:
-      #     - name: jumpstarter-client-secret
-      #       workspace: jumpstarter-client-secret
+
     tasks:
       - name: fetch-repository
         taskRef:
@@ -63,8 +56,114 @@ spec:
             value: $(params.repo_url)
           - name: revision
             value: $(params.revision)
+      - name: prepare-jumpstarter-credentials
+        taskRef:
+          name: jumpstarter-setup-sa-client
+          kind: Task
+        runAfter:
+          - fetch-repository
+        params:
+          - name: endpoint
+            value: ${{ values.jumpstarter_host }} # templated in backstage
+          - name: namespace
+            value: jumpstarter-qemu-exporter
+          - name: name
+            value: ${{values.component_id}} # templated in backstage
+          - name: insecure-tls
+            value: "true"
+        workspaces:
+          - name: config-dir
+            workspace: source-folder
+            subPath: .jumpstarter
 
-  # here we define where do the workspace come from
+      - name: download-fedora-image
+        taskRef:
+          name: download
+          kind: Task
+        runAfter:
+          - prepare-jumpstarter-credentials
+        params:
+          - name: url
+            value: https://na.edge.kernel.org/fedora/releases/41/Cloud/aarch64/images/Fedora-Cloud-Base-Generic-41-1.4.aarch64.qcow2
+          - name: file
+            value: fedora.qcow2
+        workspaces:
+          - name: output-dir
+            workspace: source-folder
+
+      - name: create-jumpstarter-lease
+        params:
+          - name: exporter-labels
+            value:
+              - example.com/board=qemu
+          - name: lease-duration
+            value: '00:15:00'   # bump this
+        taskRef:
+          kind: Task
+          name: jumpstarter-get-lease
+        runAfter:
+          - download-fedora-image
+        workspaces:
+          - name: jumpstarter-client-secret
+            workspace: source-folder
+            subPath: .jumpstarter
+
+      - name: flash-with-jumpstarter
+        params:
+          - name: jmp-lease-id
+            value: $(tasks.create-jumpstarter-lease.results.jmp-lease-id)
+          - name: jmp-jScript
+            value: j flasher flash fedora.qcow2
+        taskRef:
+          kind: Task
+          name: jumpstarter-run-command
+        runAfter:
+          - create-jumpstarter-lease
+        workspaces:
+          - name: jumpstarter-client-secret
+            workspace: source-folder
+            subPath: .jumpstarter
+
+          - name: source
+            workspace: source-folder
+
+      - name: test-with-jumpstarter
+        params:
+          - name: jmp-lease-id
+            value: $(tasks.create-jumpstarter-lease.results.jmp-lease-id)
+          - name: jmp-jScript
+            value: pytest
+        taskRef:
+          kind: Task
+          name: jumpstarter-run-command
+        runAfter:
+          - flash-with-jumpstarter
+        workspaces:
+          - name: jumpstarter-client-secret
+            workspace: source-folder
+            subPath: .jumpstarter
+
+          - name: source
+            workspace: source-folder
+    #
+    # Final tasks to release resources and clean up
+    #
+    finally:
+      # always try to release a lease if something goes wrong
+      - name: release
+        params:
+          - name: jmp-lease-id
+            value: $(tasks.create-jumpstarter-lease.results.jmp-lease-id)
+        taskRef:
+          kind: Task
+          name: jumpstarter-release-lease
+        workspaces:
+          - name: jumpstarter-client-secret
+            workspace: source-folder
+            subPath: .jumpstarter
+  #
+  # Workspace definitions
+  #
   workspaces:
   - name: source-folder
     volumeClaimTemplate:
