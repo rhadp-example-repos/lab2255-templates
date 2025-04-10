@@ -150,6 +150,8 @@ spec:
         workspaces:
           - name: source
             workspace: source-folder
+          - name: dockerconfig
+            workspace: docker-config
 
       - name: prepare-jumpstarter-credentials
         taskRef:
