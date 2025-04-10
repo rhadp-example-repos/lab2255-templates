@@ -25,10 +25,14 @@ RUN dnf install -y \
       boost-regex \
     && dnf clean all
 
-COPY src /opt/src
+COPY . /opt/src
 
-RUN cmake -S /opt/src -B /opt/build && make -C /opt/build install
+RUN cmake -S /opt/src -B /opt/build && make -C /opt/build install && rm -rf /opt/src
 
 COPY entrypoint.sh /usr/local/bin/
+
+RUN chown 1001:0 /usr/local/bin/*
+
+USER 1001
 
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
