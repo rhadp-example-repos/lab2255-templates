@@ -37,20 +37,7 @@ spec:
     picture: https://avatars.dicebear.com/api/identicon/team-a@example.com.svg?background=%23fff&margin=25
   children: []
 ---
-apiVersion: backstage.io/v1alpha1
-kind: Group
-metadata:
-  name: user1
-  description: user1 group
-spec:
-  type: team
-  profile:
-    # Intentional no displayName for testing
-    email: user1@opentlc.com
-    picture: https://avatars.dicebear.com/api/identicon/team-a@example.com.svg?background=%23fff&margin=25
-  parent: rhdh
-  children: []
----
+# https://www.dicebear.com/playground/?style=dylan
 apiVersion: backstage.io/v1alpha1
 kind: User
 metadata:
@@ -59,22 +46,8 @@ spec:
   profile:
     # Intentional no displayName for testing
     email: user1@opentlc.com
-    picture: https://avatars.dicebear.com/api/avataaars/breanna-davison@example.com.svg?background=%23fff
-  memberOf: [user1]
----
-apiVersion: backstage.io/v1alpha1
-kind: Group
-metadata:
-  name: user2
-  description: user2 group
-spec:
-  type: team
-  profile:
-    # Intentional no displayName for testing
-    email: user2@opentlc.com
-    picture: https://avatars.dicebear.com/api/identicon/team-a@example.com.svg?background=%23fff&margin=25
-  parent: rhdh
-  children: []
+    picture: https://api.dicebear.com/9.x/dylan/svg?seed=Aiden
+  memberOf: [automotive]
 ---
 apiVersion: backstage.io/v1alpha1
 kind: User
@@ -84,22 +57,8 @@ spec:
   profile:
     # Intentional no displayName for testing
     email: user2@opentlc.com
-    picture: https://avatars.dicebear.com/api/avataaars/breanna-davison@example.com.svg?background=%23fff
-  memberOf: [user2]
----
-apiVersion: backstage.io/v1alpha1
-kind: Group
-metadata:
-  name: user3
-  description: user3 group
-spec:
-  type: team
-  profile:
-    # Intentional no displayName for testing
-    email: user3@opentlc.com
-    picture: https://avatars.dicebear.com/api/identicon/team-a@example.com.svg?background=%23fff&margin=25
-  parent: rhdh
-  children: []
+    picture: https://api.dicebear.com/9.x/dylan/svg?seed=Adrian
+  memberOf: [automotive]
 ---
 apiVersion: backstage.io/v1alpha1
 kind: User
@@ -109,22 +68,8 @@ spec:
   profile:
     # Intentional no displayName for testing
     email: user3@opentlc.com
-    picture: https://avatars.dicebear.com/api/avataaars/breanna-davison@example.com.svg?background=%23fff
-  memberOf: [user3]
----
-apiVersion: backstage.io/v1alpha1
-kind: Group
-metadata:
-  name: user4
-  description: user4 group
-spec:
-  type: team
-  profile:
-    # Intentional no displayName for testing
-    email: user4@opentlc.com
-    picture: https://avatars.dicebear.com/api/identicon/team-a@example.com.svg?background=%23fff&margin=25
-  parent: rhdh
-  children: []
+    picture: https://api.dicebear.com/9.x/dylan/svg?seed=Jude
+  memberOf: [automotive]
 ---
 apiVersion: backstage.io/v1alpha1
 kind: User
@@ -134,22 +79,8 @@ spec:
   profile:
     # Intentional no displayName for testing
     email: user4@opentlc.com
-    picture: https://avatars.dicebear.com/api/avataaars/breanna-davison@example.com.svg?background=%23fff
-  memberOf: [user4]
----
-apiVersion: backstage.io/v1alpha1
-kind: Group
-metadata:
-  name: user5
-  description: user5 group
-spec:
-  type: team
-  profile:
-    # Intentional no displayName for testing
-    email: user5@opentlc.com
-    picture: https://avatars.dicebear.com/api/identicon/team-a@example.com.svg?background=%23fff&margin=25
-  parent: rhdh
-  children: []
+    picture: https://api.dicebear.com/9.x/dylan/svg?seed=Andrea
+  memberOf: [automotive]
 ---
 apiVersion: backstage.io/v1alpha1
 kind: User
@@ -159,22 +90,8 @@ spec:
   profile:
     # Intentional no displayName for testing
     email: user5@opentlc.com
-    picture: https://avatars.dicebear.com/api/avataaars/breanna-davison@example.com.svg?background=%23fff
-  memberOf: [user5]
----
-apiVersion: backstage.io/v1alpha1
-kind: Group
-metadata:
-  name: user6
-  description: user6 group
-spec:
-  type: team
-  profile:
-    # Intentional no displayName for testing
-    email: user6@opentlc.com
-    picture: https://avatars.dicebear.com/api/identicon/team-a@example.com.svg?background=%23fff&margin=25
-  parent: rhdh
-  children: []
+    picture: https://api.dicebear.com/9.x/dylan/svg?seed=Brian
+  memberOf: [automotive]
 ---
 apiVersion: backstage.io/v1alpha1
 kind: User
@@ -184,22 +101,8 @@ spec:
   profile:
     # Intentional no displayName for testing
     email: user6@opentlc.com
-    picture: https://avatars.dicebear.com/api/avataaars/breanna-davison@example.com.svg?background=%23fff
-  memberOf: [user6]
----
-apiVersion: backstage.io/v1alpha1
-kind: Group
-metadata:
-  name: user7
-  description: user7 group
-spec:
-  type: team
-  profile:
-    # Intentional no displayName for testing
-    email: user7@opentlc.com
-    picture: https://avatars.dicebear.com/api/identicon/team-a@example.com.svg?background=%23fff&margin=25
-  parent: rhdh
-  children: []
+    picture: https://api.dicebear.com/9.x/dylan/svg?seed=Kimberly
+  memberOf: [automotive]
 ---
 apiVersion: backstage.io/v1alpha1
 kind: User
@@ -209,22 +112,8 @@ spec:
   profile:
     # Intentional no displayName for testing
     email: user7@opentlc.com
-    picture: https://avatars.dicebear.com/api/avataaars/breanna-davison@example.com.svg?background=%23fff
-  memberOf: [user7]
----
-apiVersion: backstage.io/v1alpha1
-kind: Group
-metadata:
-  name: user8
-  description: user8 group
-spec:
-  type: team
-  profile:
-    # Intentional no displayName for testing
-    email: user8@opentlc.com
-    picture: https://avatars.dicebear.com/api/identicon/team-a@example.com.svg?background=%23fff&margin=25
-  parent: rhdh
-  children: []
+    picture: https://api.dicebear.com/9.x/dylan/svg?seed=Jade
+  memberOf: [automotive]
 ---
 apiVersion: backstage.io/v1alpha1
 kind: User
@@ -234,22 +123,8 @@ spec:
   profile:
     # Intentional no displayName for testing
     email: user8@opentlc.com
-    picture: https://avatars.dicebear.com/api/avataaars/breanna-davison@example.com.svg?background=%23fff
-  memberOf: [user8]
----
-apiVersion: backstage.io/v1alpha1
-kind: Group
-metadata:
-  name: user9
-  description: user9 group
-spec:
-  type: team
-  profile:
-    # Intentional no displayName for testing
-    email: user9@opentlc.com
-    picture: https://avatars.dicebear.com/api/identicon/team-a@example.com.svg?background=%23fff&margin=25
-  parent: rhdh
-  children: []
+    picture: https://api.dicebear.com/9.x/dylan/svg?seed=Aiden
+  memberOf: [automotive]
 ---
 apiVersion: backstage.io/v1alpha1
 kind: User
@@ -259,22 +134,8 @@ spec:
   profile:
     # Intentional no displayName for testing
     email: user9@opentlc.com
-    picture: https://avatars.dicebear.com/api/avataaars/breanna-davison@example.com.svg?background=%23fff
-  memberOf: [user9]
----
-apiVersion: backstage.io/v1alpha1
-kind: Group
-metadata:
-  name: user10
-  description: user10 group
-spec:
-  type: team
-  profile:
-    # Intentional no displayName for testing
-    email: user10@opentlc.com
-    picture: https://avatars.dicebear.com/api/identicon/team-a@example.com.svg?background=%23fff&margin=25
-  parent: rhdh
-  children: []
+    picture: https://api.dicebear.com/9.x/dylan/svg?seed=Aiden
+  memberOf: [automotive]
 ---
 apiVersion: backstage.io/v1alpha1
 kind: User
@@ -284,23 +145,8 @@ spec:
   profile:
     # Intentional no displayName for testing
     email: user10@opentlc.com
-    picture: https://avatars.dicebear.com/api/avataaars/breanna-davison@example.com.svg?background=%23fff
-  memberOf: [user10]
-
----
-apiVersion: backstage.io/v1alpha1
-kind: Group
-metadata:
-  name: user11
-  description: user11 group
-spec:
-  type: team
-  profile:
-    # Intentional no displayName for testing
-    email: user11@opentlc.com
-    picture: https://avatars.dicebear.com/api/identicon/team-a@example.com.svg?background=%23fff&margin=25
-  parent: rhdh
-  children: []
+    picture: https://api.dicebear.com/9.x/dylan/svg?seed=Aiden
+  memberOf: [automotive]
 ---
 apiVersion: backstage.io/v1alpha1
 kind: User
@@ -310,22 +156,8 @@ spec:
   profile:
     # Intentional no displayName for testing
     email: user11@opentlc.com
-    picture: https://avatars.dicebear.com/api/avataaars/breanna-davison@example.com.svg?background=%23fff
-  memberOf: [user11]
----
-apiVersion: backstage.io/v1alpha1
-kind: Group
-metadata:
-  name: user12
-  description: user12 group
-spec:
-  type: team
-  profile:
-    # Intentional no displayName for testing
-    email: user12@opentlc.com
-    picture: https://avatars.dicebear.com/api/identicon/team-a@example.com.svg?background=%23fff&margin=25
-  parent: rhdh
-  children: []
+    picture: https://api.dicebear.com/9.x/dylan/svg?seed=Aiden
+  memberOf: [automotive]
 ---
 apiVersion: backstage.io/v1alpha1
 kind: User
@@ -335,22 +167,8 @@ spec:
   profile:
     # Intentional no displayName for testing
     email: user12@opentlc.com
-    picture: https://avatars.dicebear.com/api/avataaars/breanna-davison@example.com.svg?background=%23fff
-  memberOf: [user12]
----
-apiVersion: backstage.io/v1alpha1
-kind: Group
-metadata:
-  name: user13
-  description: user13 group
-spec:
-  type: team
-  profile:
-    # Intentional no displayName for testing
-    email: user13@opentlc.com
-    picture: https://avatars.dicebear.com/api/identicon/team-a@example.com.svg?background=%23fff&margin=25
-  parent: rhdh
-  children: []
+    picture: https://api.dicebear.com/9.x/dylan/svg?seed=Aiden
+  memberOf: [automotive]
 ---
 apiVersion: backstage.io/v1alpha1
 kind: User
@@ -360,22 +178,8 @@ spec:
   profile:
     # Intentional no displayName for testing
     email: user13@opentlc.com
-    picture: https://avatars.dicebear.com/api/avataaars/breanna-davison@example.com.svg?background=%23fff
-  memberOf: [user13]
----
-apiVersion: backstage.io/v1alpha1
-kind: Group
-metadata:
-  name: user14
-  description: user14 group
-spec:
-  type: team
-  profile:
-    # Intentional no displayName for testing
-    email: user14@opentlc.com
-    picture: https://avatars.dicebear.com/api/identicon/team-a@example.com.svg?background=%23fff&margin=25
-  parent: rhdh
-  children: []
+    picture: https://api.dicebear.com/9.x/dylan/svg?seed=Aiden
+  memberOf: [automotive]
 ---
 apiVersion: backstage.io/v1alpha1
 kind: User
@@ -385,22 +189,8 @@ spec:
   profile:
     # Intentional no displayName for testing
     email: user14@opentlc.com
-    picture: https://avatars.dicebear.com/api/avataaars/breanna-davison@example.com.svg?background=%23fff
-  memberOf: [user14]
----
-apiVersion: backstage.io/v1alpha1
-kind: Group
-metadata:
-  name: user15
-  description: user15 group
-spec:
-  type: team
-  profile:
-    # Intentional no displayName for testing
-    email: user15@opentlc.com
-    picture: https://avatars.dicebear.com/api/identicon/team-a@example.com.svg?background=%23fff&margin=25
-  parent: rhdh
-  children: []
+    picture: https://api.dicebear.com/9.x/dylan/svg?seed=Aiden
+  memberOf: [automotive]
 ---
 apiVersion: backstage.io/v1alpha1
 kind: User
@@ -410,22 +200,8 @@ spec:
   profile:
     # Intentional no displayName for testing
     email: user15@opentlc.com
-    picture: https://avatars.dicebear.com/api/avataaars/breanna-davison@example.com.svg?background=%23fff
-  memberOf: [user15]
----
-apiVersion: backstage.io/v1alpha1
-kind: Group
-metadata:
-  name: user16
-  description: user16 group
-spec:
-  type: team
-  profile:
-    # Intentional no displayName for testing
-    email: user16@opentlc.com
-    picture: https://avatars.dicebear.com/api/identicon/team-a@example.com.svg?background=%23fff&margin=25
-  parent: rhdh
-  children: []
+    picture: https://api.dicebear.com/9.x/dylan/svg?seed=Aiden
+  memberOf: [automotive]
 ---
 apiVersion: backstage.io/v1alpha1
 kind: User
@@ -435,22 +211,8 @@ spec:
   profile:
     # Intentional no displayName for testing
     email: user16@opentlc.com
-    picture: https://avatars.dicebear.com/api/avataaars/breanna-davison@example.com.svg?background=%23fff
-  memberOf: [user16]
----
-apiVersion: backstage.io/v1alpha1
-kind: Group
-metadata:
-  name: user17
-  description: user17 group
-spec:
-  type: team
-  profile:
-    # Intentional no displayName for testing
-    email: user17@opentlc.com
-    picture: https://avatars.dicebear.com/api/identicon/team-a@example.com.svg?background=%23fff&margin=25
-  parent: rhdh
-  children: []
+    picture: https://api.dicebear.com/9.x/dylan/svg?seed=Aiden
+  memberOf: [automotive]
 ---
 apiVersion: backstage.io/v1alpha1
 kind: User
@@ -460,22 +222,8 @@ spec:
   profile:
     # Intentional no displayName for testing
     email: user17@opentlc.com
-    picture: https://avatars.dicebear.com/api/avataaars/breanna-davison@example.com.svg?background=%23fff
-  memberOf: [user17]
----
-apiVersion: backstage.io/v1alpha1
-kind: Group
-metadata:
-  name: user18
-  description: user18 group
-spec:
-  type: team
-  profile:
-    # Intentional no displayName for testing
-    email: user18@opentlc.com
-    picture: https://avatars.dicebear.com/api/identicon/team-a@example.com.svg?background=%23fff&margin=25
-  parent: rhdh
-  children: []
+    picture: https://api.dicebear.com/9.x/dylan/svg?seed=Aiden
+  memberOf: [automotive]
 ---
 apiVersion: backstage.io/v1alpha1
 kind: User
@@ -485,22 +233,8 @@ spec:
   profile:
     # Intentional no displayName for testing
     email: user18@opentlc.com
-    picture: https://avatars.dicebear.com/api/avataaars/breanna-davison@example.com.svg?background=%23fff
-  memberOf: [user18]
----
-apiVersion: backstage.io/v1alpha1
-kind: Group
-metadata:
-  name: user19
-  description: user19 group
-spec:
-  type: team
-  profile:
-    # Intentional no displayName for testing
-    email: user19@opentlc.com
-    picture: https://avatars.dicebear.com/api/identicon/team-a@example.com.svg?background=%23fff&margin=25
-  parent: rhdh
-  children: []
+    picture: https://api.dicebear.com/9.x/dylan/svg?seed=Aiden
+  memberOf: [automotive]
 ---
 apiVersion: backstage.io/v1alpha1
 kind: User
@@ -510,22 +244,8 @@ spec:
   profile:
     # Intentional no displayName for testing
     email: user19@opentlc.com
-    picture: https://avatars.dicebear.com/api/avataaars/breanna-davison@example.com.svg?background=%23fff
-  memberOf: [user19]
----
-apiVersion: backstage.io/v1alpha1
-kind: Group
-metadata:
-  name: user20
-  description: user20 group
-spec:
-  type: team
-  profile:
-    # Intentional no displayName for testing
-    email: user20@opentlc.com
-    picture: https://avatars.dicebear.com/api/identicon/team-a@example.com.svg?background=%23fff&margin=25
-  parent: rhdh
-  children: []
+    picture: https://api.dicebear.com/9.x/dylan/svg?seed=Aiden
+  memberOf: [automotive]
 ---
 apiVersion: backstage.io/v1alpha1
 kind: User
@@ -535,5 +255,446 @@ spec:
   profile:
     # Intentional no displayName for testing
     email: user20@opentlc.com
-    picture: https://avatars.dicebear.com/api/avataaars/breanna-davison@example.com.svg?background=%23fff
-  memberOf: [user20]
+    picture: https://api.dicebear.com/9.x/dylan/svg?seed=Aiden
+  memberOf: [automotive]
+---
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: user21
+spec:
+  profile:
+    # Intentional no displayName for testing
+    email: user21@opentlc.com
+    picture: https://api.dicebear.com/9.x/dylan/svg?seed=Aiden
+  memberOf: [automotive]
+---
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: user22
+spec:
+  profile:
+    # Intentional no displayName for testing
+    email: user22@opentlc.com
+    picture: https://api.dicebear.com/9.x/dylan/svg?seed=Aiden
+  memberOf: [automotive]
+---
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: user23
+spec:
+  profile:
+    # Intentional no displayName for testing
+    email: user23@opentlc.com
+    picture: https://api.dicebear.com/9.x/dylan/svg?seed=Aiden
+  memberOf: [automotive]
+---
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: user24
+spec:
+  profile:
+    # Intentional no displayName for testing
+    email: user24@opentlc.com
+    picture: https://api.dicebear.com/9.x/dylan/svg?seed=Aiden
+  memberOf: [automotive]
+---
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: user25
+spec:
+  profile:
+    # Intentional no displayName for testing
+    email: user25@opentlc.com
+    picture: https://api.dicebear.com/9.x/dylan/svg?seed=Aiden
+  memberOf: [automotive]
+---
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: user26
+spec:
+  profile:
+    # Intentional no displayName for testing
+    email: user26@opentlc.com
+    picture: https://api.dicebear.com/9.x/dylan/svg?seed=Aiden
+  memberOf: [automotive]
+---
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: user27
+spec:
+  profile:
+    # Intentional no displayName for testing
+    email: user27@opentlc.com
+    picture: https://api.dicebear.com/9.x/dylan/svg?seed=Aiden
+  memberOf: [automotive]
+---
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: user28
+spec:
+  profile:
+    # Intentional no displayName for testing
+    email: user28@opentlc.com
+    picture: https://api.dicebear.com/9.x/dylan/svg?seed=Aiden
+  memberOf: [automotive]
+---
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: user29
+spec:
+  profile:
+    # Intentional no displayName for testing
+    email: user29@opentlc.com
+    picture: https://api.dicebear.com/9.x/dylan/svg?seed=Aiden
+  memberOf: [automotive]
+---
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: user30
+spec:
+  profile:
+    # Intentional no displayName for testing
+    email: user30@opentlc.com
+    picture: https://api.dicebear.com/9.x/dylan/svg?seed=Aiden
+  memberOf: [automotive]
+---
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: user31
+spec:
+  profile:
+    # Intentional no displayName for testing
+    email: user31@opentlc.com
+    picture: https://api.dicebear.com/9.x/dylan/svg?seed=Aiden
+  memberOf: [automotive]
+---
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: user32
+spec:
+  profile:
+    # Intentional no displayName for testing
+    email: user32@opentlc.com
+    picture: https://api.dicebear.com/9.x/dylan/svg?seed=Aiden
+  memberOf: [automotive]
+---
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: user33
+spec:
+  profile:
+    # Intentional no displayName for testing
+    email: user33@opentlc.com
+    picture: https://api.dicebear.com/9.x/dylan/svg?seed=Aiden
+  memberOf: [automotive]
+---
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: user34
+spec:
+  profile:
+    # Intentional no displayName for testing
+    email: user34@opentlc.com
+    picture: https://api.dicebear.com/9.x/dylan/svg?seed=Aiden
+  memberOf: [automotive]
+---
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: user35
+spec:
+  profile:
+    # Intentional no displayName for testing
+    email: user35@opentlc.com
+    picture: https://api.dicebear.com/9.x/dylan/svg?seed=Aiden
+  memberOf: [automotive]
+---
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: user36
+spec:
+  profile:
+    # Intentional no displayName for testing
+    email: user36@opentlc.com
+    picture: https://api.dicebear.com/9.x/dylan/svg?seed=Aiden
+  memberOf: [automotive]
+---
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: user37
+spec:
+  profile:
+    # Intentional no displayName for testing
+    email: user37@opentlc.com
+    picture: https://api.dicebear.com/9.x/dylan/svg?seed=Aiden
+  memberOf: [automotive]
+---
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: user38
+spec:
+  profile:
+    # Intentional no displayName for testing
+    email: user38@opentlc.com
+    picture: https://api.dicebear.com/9.x/dylan/svg?seed=Aiden
+  memberOf: [automotive]
+---
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: user39
+spec:
+  profile:
+    # Intentional no displayName for testing
+    email: user39@opentlc.com
+    picture: https://api.dicebear.com/9.x/dylan/svg?seed=Aiden
+  memberOf: [automotive]
+---
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: user40
+spec:
+  profile:
+    # Intentional no displayName for testing
+    email: user40@opentlc.com
+    picture: https://api.dicebear.com/9.x/dylan/svg?seed=Aiden
+  memberOf: [automotive]
+---
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: user41
+spec:
+  profile:
+    # Intentional no displayName for testing
+    email: user41@opentlc.com
+    picture: https://api.dicebear.com/9.x/dylan/svg?seed=Aiden
+  memberOf: [automotive]
+---
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: user42
+spec:
+  profile:
+    # Intentional no displayName for testing
+    email: user42@opentlc.com
+    picture: https://api.dicebear.com/9.x/dylan/svg?seed=Aiden
+  memberOf: [automotive]
+---
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: user43
+spec:
+  profile:
+    # Intentional no displayName for testing
+    email: user43@opentlc.com
+    picture: https://api.dicebear.com/9.x/dylan/svg?seed=Aiden
+  memberOf: [automotive]
+---
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: user44
+spec:
+  profile:
+    # Intentional no displayName for testing
+    email: user44@opentlc.com
+    picture: https://api.dicebear.com/9.x/dylan/svg?seed=Aiden
+  memberOf: [automotive]
+---
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: user45
+spec:
+  profile:
+    # Intentional no displayName for testing
+    email: user45@opentlc.com
+    picture: https://api.dicebear.com/9.x/dylan/svg?seed=Aiden
+  memberOf: [automotive]
+---
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: user46
+spec:
+  profile:
+    # Intentional no displayName for testing
+    email: user46@opentlc.com
+    picture: https://api.dicebear.com/9.x/dylan/svg?seed=Aiden
+  memberOf: [automotive]
+---
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: user47
+spec:
+  profile:
+    # Intentional no displayName for testing
+    email: user47@opentlc.com
+    picture: https://api.dicebear.com/9.x/dylan/svg?seed=Aiden
+  memberOf: [automotive]
+---
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: user48
+spec:
+  profile:
+    # Intentional no displayName for testing
+    email: user48@opentlc.com
+    picture: https://api.dicebear.com/9.x/dylan/svg?seed=Aiden
+  memberOf: [automotive]
+---
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: user49
+spec:
+  profile:
+    # Intentional no displayName for testing
+    email: user49@opentlc.com
+    picture: https://api.dicebear.com/9.x/dylan/svg?seed=Aiden
+  memberOf: [automotive]
+---
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: user50
+spec:
+  profile:
+    # Intentional no displayName for testing
+    email: user10@opentlc.com
+    picture: https://api.dicebear.com/9.x/dylan/svg?seed=Aiden
+  memberOf: [automotive]
+---
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: user51
+spec:
+  profile:
+    # Intentional no displayName for testing
+    email: user51@opentlc.com
+    picture: https://api.dicebear.com/9.x/dylan/svg?seed=Aiden
+  memberOf: [automotive]
+---
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: user52
+spec:
+  profile:
+    # Intentional no displayName for testing
+    email: user52@opentlc.com
+    picture: https://api.dicebear.com/9.x/dylan/svg?seed=Aiden
+  memberOf: [automotive]
+---
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: user53
+spec:
+  profile:
+    # Intentional no displayName for testing
+    email: user53@opentlc.com
+    picture: https://api.dicebear.com/9.x/dylan/svg?seed=Aiden
+  memberOf: [automotive]
+---
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: user54
+spec:
+  profile:
+    # Intentional no displayName for testing
+    email: user54@opentlc.com
+    picture: https://api.dicebear.com/9.x/dylan/svg?seed=Aiden
+  memberOf: [automotive]
+---
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: user55
+spec:
+  profile:
+    # Intentional no displayName for testing
+    email: user55@opentlc.com
+    picture: https://api.dicebear.com/9.x/dylan/svg?seed=Aiden
+  memberOf: [automotive]
+---
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: user56
+spec:
+  profile:
+    # Intentional no displayName for testing
+    email: user56@opentlc.com
+    picture: https://api.dicebear.com/9.x/dylan/svg?seed=Aiden
+  memberOf: [automotive]
+---
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: user57
+spec:
+  profile:
+    # Intentional no displayName for testing
+    email: user57@opentlc.com
+    picture: https://api.dicebear.com/9.x/dylan/svg?seed=Aiden
+  memberOf: [automotive]
+---
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: user58
+spec:
+  profile:
+    # Intentional no displayName for testing
+    email: user58@opentlc.com
+    picture: https://api.dicebear.com/9.x/dylan/svg?seed=Aiden
+  memberOf: [automotive]
+---
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: user59
+spec:
+  profile:
+    # Intentional no displayName for testing
+    email: user9@opentlc.com
+    picture: https://api.dicebear.com/9.x/dylan/svg?seed=Aiden
+  memberOf: [automotive]
+---
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: user60
+spec:
+  profile:
+    # Intentional no displayName for testing
+    email: user60@opentlc.com
+    picture: https://api.dicebear.com/9.x/dylan/svg?seed=Aiden
+  memberOf: [automotive]
+---
