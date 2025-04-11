@@ -20,6 +20,8 @@ components:
       volumeMounts:
         - name: run-vsomeip
           path: /run/vsomeip
+        - name: run-dlt
+          path: /run/dlt
   - name: routingmanagerd
     container:
       image: quay.io/jumpstarter-dev/summit-devspace:main
@@ -28,10 +30,22 @@ components:
       volumeMounts:
         - name: run-vsomeip
           path: /run/vsomeip
+  - name: dlt-daemon
+    container:
+      image: quay.io/jumpstarter-dev/summit-devspace:main
+      command:
+        - dlt-daemon
+      volumeMounts:
+        - name: run-dlt
+          path: /run/dlt
   - name: run-vsomeip
     volume:
       ephemeral: true
-      size: 1Gi
+      size: 16Mi
+  - name: run-dlt
+    volume:
+      ephemeral: true
+      size: 16Mi
 commands:
   - id: configure-jumpstarter-client
     exec:
