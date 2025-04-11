@@ -45,7 +45,7 @@ spec:
         - name: IMAGE
           value: $(params.output-image):$(params.source-branch)
         - name: CONTEXT
-          value: ./
+          value: ./src
         - name: DOCKERFILE
           value: ./Containerfile
       runAfter:
