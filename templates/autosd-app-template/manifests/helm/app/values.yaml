@@ -32,11 +32,11 @@ serviceAccount:
 
 podAnnotations: {}
 
-podSecurityContext:
-  fsGroup: 0
+podSecurityContext: {}
+  #fsGroup: 0
 
-securityContext:
-  runAsUser: 1001
+securityContext: {}
+  #runAsUser: 1001
   # capabilities:
   #   drop:
   #   - ALL
