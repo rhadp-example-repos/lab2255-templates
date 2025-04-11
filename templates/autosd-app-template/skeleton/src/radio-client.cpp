@@ -80,12 +80,14 @@ void input_thread() {
             return; /* End thread */
             break;
         case '+':
+        case '=':
             {
                 std::shared_ptr< vsomeip::message > request = new_request (RADIO_CHANGE_VOLUME_METHOD_ID, 10);
                 app->send(request);
             }
             break;
         case '-':
+        case '_':
             {
                 std::shared_ptr< vsomeip::message > request = new_request (RADIO_CHANGE_VOLUME_METHOD_ID, (uint32_t)(int32_t)-10);
                 app->send(request);
