@@ -10,7 +10,7 @@ spec:
       type: string
       default: ""
     - name: component_id
-      description: "the conponent_id the job belongs to"
+      description: "the component_id the job belongs to"
       type: string
       default: ""
     # aib build parameters
@@ -33,20 +33,25 @@ spec:
     - name: export_format
       type: string
       default: "qcow2"
-    
     - name: container-image
       description: "aib container"
       type: string
       default: "quay.io/centos-sig-automotive/automotive-osbuild:latest"
-  
+
   results:
     - description: Name of the image built
       name: os-image-name
-      type: string  
-  
+      type: string
+
   steps:
     - name: aib-build
       image: $(params.container-image)
+      resources:
+        requests:
+          memory: "12Gi"
+          cpu: "1500m"
+        limits:
+          memory: "12Gi"
       script: |
         #!/usr/bin/env bash
 

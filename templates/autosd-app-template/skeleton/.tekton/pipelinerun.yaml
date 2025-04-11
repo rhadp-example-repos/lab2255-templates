@@ -40,7 +40,7 @@ spec:
     nodeSelector:
       kubernetes.io/arch: arm64
     tolerations:
-      - key: "metal"
+      - key: "arm"
         operator: "Equal"
         value: "true"
         effect: "NoSchedule"

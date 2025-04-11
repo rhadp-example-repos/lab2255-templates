@@ -57,7 +57,11 @@ spec:
   steps:
   - image: $(params.BUILDER_IMAGE)
     name: build-and-push
-    resources: {}
+    resources:
+        requests:
+          memory: "3Gi"
+        limits:
+          memory: "3Gi"
     script: |
       ENTITLEMENT_VOLUME=""
 
