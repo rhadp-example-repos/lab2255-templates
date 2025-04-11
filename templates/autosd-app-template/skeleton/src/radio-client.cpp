@@ -113,7 +113,7 @@ void input_thread() {
     }
 }
 
-void run() {
+void run(bool interactive) {
     std::unique_lock<std::mutex> its_lock(mutex);
 
     app->register_message_handler(
@@ -155,12 +155,13 @@ void run() {
 
     while (running) {
         if (data_changed) {
-            std::cout
-                << "\e[s"       // Save cursor
-                << "\e[6;1H"   // Goto row 6
-                << "\e[1J"     // Clear to start of screen
-                << "\e[1;1H"   // Goto row 1;
-              ;
+            if (interactive)
+              std::cout
+                  << "\e[s"       // Save cursor
+                  << "\e[6;1H"   // Goto row 6
+                  << "\e[1J"     // Clear to start of screen
+                  << "\e[1;1H"   // Goto row 1;
+                ;
             if (service_available) {
                 std::cout
                     << "Station: " << radio_station << std::endl
@@ -175,9 +176,10 @@ void run() {
                 std::cout
                     << "Connecting to radio service";
             }
-            std::cout
-                << "\e[u"        // Restore cursor
-                << std::flush;
+            if (interactive)
+              std::cout
+                  << "\e[u"        // Restore cursor
+                  << std::flush;
             data_changed = false;
         }
 
@@ -215,6 +217,9 @@ void on_engine_reverse_event(const std::shared_ptr<vsomeip::message> &_event) {
 int main(int argc, const char *argv[]) {
     struct termios old_tio, new_tio;
     unsigned char c;
+    bool interactive;
+
+    interactive = isatty(STDOUT_FILENO);
 
     tcgetattr(STDIN_FILENO,&old_tio);
     new_tio=old_tio;
@@ -223,11 +228,12 @@ int main(int argc, const char *argv[]) {
     new_tio.c_lflag &=(~ICANON & ~ECHO);
     tcsetattr(STDIN_FILENO,TCSANOW,&new_tio);
 
-    std::cout
-      << "\e[2J"     // Clear screen
-      << "\e[1;1H"  // Goto row 1
-      << "\e[6;1H"  // Goto row 6
-      << " Usage: volume: +/-, station: SPACE on/off: ESC, quit: Q" << std::endl;
+    if (interactive)
+      std::cout
+        << "\e[2J"     // Clear screen
+        << "\e[1;1H"  // Goto row 1
+        << "\e[6;1H"  // Goto row 6
+        << " Usage: volume: +/-, station: SPACE on/off: ESC, quit: Q" << std::endl;
 
     app = vsomeip::runtime::get()->create_application("Radio client");
     app->init();
@@ -249,7 +255,7 @@ int main(int argc, const char *argv[]) {
                                   on_engine_reverse_event);
 
     std::thread input(input_thread);
-    std::thread sender(run);
+    std::thread sender(run, interactive);
     app->start();
 
     sender.join();
