@@ -143,7 +143,7 @@ spec:
           - name: dockerconfig
             workspace: docker-config
 
-      - name: prepare-jumpstarter-credentials
+      - name: prepare-jumpstarter-config
         taskRef:
           name: jumpstarter-setup-sa-client
           kind: Task
@@ -170,16 +170,15 @@ spec:
               - example.com/board=qemu
           - name: lease-duration
             value: '00:15:00'   # bump this
+          - name: config
+            value: "$(tasks.prepare-jumpstarter-config.results.config)"
+
         taskRef:
           kind: Task
           name: jumpstarter-get-lease
         runAfter:
-          - prepare-jumpstarter-credentials
+          - prepare-jumpstarter-config
           - automotive-image-builder
-        workspaces:
-          - name: jumpstarter-client-secret
-            workspace: source-folder
-            subPath: .jumpstarter
 
       - name: flash-with-jumpstarter
         params:
@@ -187,16 +186,15 @@ spec:
             value: $(tasks.create-jumpstarter-lease.results.jmp-lease-id)
           - name: jmp-jScript
             value: j flasher flash binaries/autosd9-qemu.qcow2
+          - name: config
+            value: "$(tasks.prepare-jumpstarter-config.results.config)"
+
         taskRef:
           kind: Task
           name: jumpstarter-run-command
         runAfter:
           - create-jumpstarter-lease
         workspaces:
-          - name: jumpstarter-client-secret
-            workspace: source-folder
-            subPath: .jumpstarter
-
           - name: source
             workspace: source-folder
 
@@ -206,16 +204,15 @@ spec:
             value: $(tasks.create-jumpstarter-lease.results.jmp-lease-id)
           - name: jmp-jScript
             value: pytest
+          - name: config
+            value: "$(tasks.prepare-jumpstarter-config.results.config)"
+
         taskRef:
           kind: Task
           name: jumpstarter-run-command
         runAfter:
           - flash-with-jumpstarter
         workspaces:
-          - name: jumpstarter-client-secret
-            workspace: source-folder
-            subPath: .jumpstarter
-
           - name: source
             workspace: source-folder
     #
@@ -227,13 +224,13 @@ spec:
         params:
           - name: jmp-lease-id
             value: $(tasks.create-jumpstarter-lease.results.jmp-lease-id)
+          - name: config
+            value: "$(tasks.prepare-jumpstarter-config.results.config)"
+
         taskRef:
           kind: Task
           name: jumpstarter-release-lease
-        workspaces:
-          - name: jumpstarter-client-secret
-            workspace: source-folder
-            subPath: .jumpstarter
+
   #
   # Workspace definitions
   #
@@ -246,7 +243,7 @@ spec:
           - ReadWriteOnce
         resources:
           requests:
-            storage: 5Gi
+            storage: 10Gi
   # This workspace will inject secret to help the git-clone task to be able to
   # checkout the private repositories
   - name: basic-auth

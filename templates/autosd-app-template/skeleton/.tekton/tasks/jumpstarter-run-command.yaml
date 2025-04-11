@@ -22,6 +22,11 @@ spec:
       name: home
       type: string
       default: '/root'
+    - name: 'config'
+      description: The Jumpstarter client config contents, can be used instead of the workspace.
+      type: string
+      default: ''
+
   steps:
     - computeResources: {}
       image: "$(params.image)"
@@ -29,6 +34,17 @@ spec:
       script: |
         #!/bin/bash
         set -eux
+
+        # Check if the config parameter is provided
+        if [ -n "$(params.config)" ]; then
+          set +x
+          # If the config parameter is provided, create the directory and write the config to it
+          mkdir -p "$(params.home)/.config/jumpstarter/clients"
+          echo "$(params.config)" > "$(params.home)/.config/jumpstarter/clients/default.yaml"
+          # replace __POD_TOKEN__ in the config with the running pod token
+          sed -i "s/__POD_TOKEN__/$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)/g" "$(params.home)/.config/jumpstarter/clients/default.yaml"
+          set +x
+        fi
 
         # Use to the specified Jumpstarter client configuration
         jmp config client use "$(params.client-name)"
@@ -52,6 +68,6 @@ spec:
     - description: Workspace for mounting Jumpstarter client files.
       mountPath: "$(params.home)/.config/jumpstarter/clients"
       name: jumpstarter-client-secret
-      readOnly: true
+      optional: true
     - description: Workspace containing the source code / build images
       name: source

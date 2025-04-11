@@ -25,6 +25,10 @@ spec:
       type: string
       default: ""
 
+  results:
+    - name: config
+      description: "The content of the generated Jumpstarter client config file"
+
   steps:
     - name: setup-client
       image: quay.io/fedora/fedora-minimal:43
@@ -43,12 +47,16 @@ spec:
         endpoint: $(params.endpoint)
         tls:
           insecure: $(params.insecure-tls)
-          ca: "$(params.tls-ca)"
-        token: `cat /var/run/secrets/kubernetes.io/serviceaccount/token`
+          ca: \"$(params.tls-ca)\"
+        token: __POD_TOKEN__
+
         drivers:
           allow: []
           unsafe: True
         EOF
+
+        cp ${CONFIG_DIR}/default.yaml $(results.config.path)
   workspaces:
     - name: config-dir
       description: The workspace which contains Jumpstarter client config file
+      optional: true

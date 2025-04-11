@@ -59,9 +59,9 @@ spec:
     name: build-and-push
     resources:
         requests:
-          memory: "3Gi"
+          memory: "5Gi"
         limits:
-          memory: "3Gi"
+          memory: "5Gi"
     script: |
       ENTITLEMENT_VOLUME=""
 
@@ -111,7 +111,7 @@ spec:
   volumes:
   - emptyDir:
       medium: Memory
-      sizeLimit: 2Gi
+      sizeLimit: 4Gi
     name: varlibcontainers
   workspaces:
   - name: source

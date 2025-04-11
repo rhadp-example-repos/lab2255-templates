@@ -19,6 +19,10 @@ spec:
       description: Maximum time (in HH:MM:SS format) for holding lease before releasing it.
       name: lease-duration
       type: string
+    - name: 'config'
+      description: The Jumpstarter client config contents, can be used instead of the workspace.
+      type: string
+      default: ''
   results:
     - description: The Lease ID from Jumpstarter
       name: jmp-lease-id
@@ -31,6 +35,17 @@ spec:
       script: |
         #!/usr/bin/env bash
          set -eux
+
+         # Check if the config parameter is provided
+         if [ -n "$(params.config)" ]; then
+            set +x
+            # If the config parameter is provided, create the directory and write the config to it
+            mkdir -p /root/.config/jumpstarter/clients
+            echo "$(params.config)" > /root/.config/jumpstarter/clients/default.yaml
+            # replace __POD_TOKEN__ in the config with the running pod token
+            sed -i "s/__POD_TOKEN__/$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)/g" /root/.config/jumpstarter/clients/default.yaml
+            set -x
+         fi
 
          # Use the client name provided in the parameter
          echo "Using the client $(params.client-name)"
@@ -53,4 +68,4 @@ spec:
     - description: Workspace for mounting Jumpstarter client files.
       mountPath: /root/.config/jumpstarter/clients
       name: jumpstarter-client-secret
-      readOnly: true
+      optional: true
