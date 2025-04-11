@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ${{values.deployment_name}}-server
+  name: ${{values.deployment_name}}-radio-app
   labels:
     {{- include "backstage.labels" . | nindent 4 }}
     {{- include "autosd-template.labels" . | nindent 4 }}
@@ -35,8 +35,8 @@ spec:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: {{ include "autosd-template.image" . }}
           ports:
-            - name: http
-              containerPort: 7001
+            - name: socat
+              containerPort: 8000
               protocol: TCP          
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           resources:
