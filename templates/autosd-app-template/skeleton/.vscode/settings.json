@@ -1,4 +1,6 @@
 {
-    "cmake.sourceDirectory": "/projects/autosd-app-demo-pic/src",
-    "python.defaultInterpreterPath": "/jumpstarter/bin/python",
+    "cmake.sourceDirectory": "${workspaceFolder}/src",
+    "cmake.buildDirectory": "${workspaceFolder}/build",
+    "cmake.options.statusBarVisibility": "hidden",
+    "python.defaultInterpreterPath": "/jumpstarter/bin/python"
 }
