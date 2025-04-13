@@ -1,4 +1,5 @@
 build/
+.cache/
 _build
 .secure_files
 *.tar.gz
