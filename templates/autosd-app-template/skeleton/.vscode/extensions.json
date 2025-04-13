@@ -4,6 +4,7 @@
         "ms-python.python",
         "ms-python.debugpy",
         "redhat.vscode-tekton-pipelines",
-        "redhat.vscode-yaml"
+        "redhat.vscode-yaml",
+        "pkief.material-icon-theme"
     ]
 }
