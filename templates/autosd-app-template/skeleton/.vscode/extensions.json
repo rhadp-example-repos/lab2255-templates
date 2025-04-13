@@ -1,0 +1,9 @@
+{
+    "recommendations": [
+        "kylinideteam.kylin-cpp-pack",
+        "ms-python.python",
+        "ms-python.debugpy",
+        "redhat.vscode-tekton-pipelines",
+        "redhat.vscode-yaml"
+    ]
+}

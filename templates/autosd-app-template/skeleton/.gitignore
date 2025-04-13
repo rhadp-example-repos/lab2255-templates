@@ -1,3 +1,4 @@
+build/
 _build
 .secure_files
 *.tar.gz
