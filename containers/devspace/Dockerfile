@@ -4,6 +4,7 @@ FROM quay.io/centos/centos:stream9
 COPY --from=uv /uv /uvx /bin/
 RUN dnf install -y \
       epel-release && \
+    dnf copr enable chmouel/tektoncd-cli && \
     dnf install -y \
       compat-openssl11 \
       libbrotli \
@@ -29,6 +30,8 @@ RUN dnf install -y \
       boost-atomic \
       boost-filesystem \
       boost-regex \
+      clang-tools \
+      tektoncd-cli \
       && dnf clean all \
       && rm -rf /var/cache/dnf
 
