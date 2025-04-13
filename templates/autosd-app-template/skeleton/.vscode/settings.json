@@ -1,6 +1,7 @@
 {
     "cmake.sourceDirectory": "${workspaceFolder}/src",
     "cmake.buildDirectory": "${workspaceFolder}/build",
+    "cmake.showOptionsMovedNotification": false,
     "cmake.options.statusBarVisibility": "hidden",
     "python.defaultInterpreterPath": "/jumpstarter/bin/python"
 }
