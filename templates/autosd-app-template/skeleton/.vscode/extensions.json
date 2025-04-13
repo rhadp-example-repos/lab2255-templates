@@ -1,6 +1,7 @@
 {
     "recommendations": [
-        "kylinideteam.kylin-cpp-pack",
+        "llvm-vs-code-extensions.vscode-clangd",
+        "ms-vscode.cmake-tools",
         "ms-python.python",
         "ms-python.debugpy",
         "redhat.vscode-tekton-pipelines",
