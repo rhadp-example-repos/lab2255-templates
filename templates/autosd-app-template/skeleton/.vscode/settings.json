@@ -6,4 +6,7 @@
     "cmake.enableAutomaticKitScan": true,
     "editor.inlayHints.enabled": "off",
     "python.defaultInterpreterPath": "/jumpstarter/bin/python",
+    "chat.commandCenter.enabled": false,
+    "security.workspace.trust.enabled": false,
+    "git.enableSmartCommit": true
 }
