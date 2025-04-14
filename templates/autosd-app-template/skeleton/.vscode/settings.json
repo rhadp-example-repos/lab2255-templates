@@ -8,5 +8,6 @@
     "python.defaultInterpreterPath": "/jumpstarter/bin/python",
     "chat.commandCenter.enabled": false,
     "security.workspace.trust.enabled": false,
-    "git.enableSmartCommit": true
+    "git.enableSmartCommit": true,
+    "window.menuBarVisibility": "classic"
 }
