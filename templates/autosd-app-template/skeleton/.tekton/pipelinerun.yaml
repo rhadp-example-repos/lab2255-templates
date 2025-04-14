@@ -167,7 +167,7 @@ spec:
         params:
           - name: exporter-labels
             value:
-              - example.com/board=qemu
+              - type=virtual
           - name: lease-duration
             value: '00:15:00'   # bump this
           - name: config
