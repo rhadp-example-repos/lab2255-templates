@@ -11,7 +11,7 @@ log = logging.getLogger(__name__)
 
 
 class TestOnHardware(JumpstarterTest):
-    selector = "example.com/board=qemu"
+    selector = "type=virtual"
 
     def test_boot(self, client):
         """Test the boot process of the device."""
