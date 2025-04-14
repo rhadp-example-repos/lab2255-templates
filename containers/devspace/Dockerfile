@@ -29,6 +29,7 @@ RUN dnf install -y \
       boost-atomic \
       boost-filesystem \
       boost-regex \
+      clang-tools-extra \
       && dnf clean all \
       && rm -rf /var/cache/dnf
 
