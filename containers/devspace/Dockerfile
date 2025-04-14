@@ -166,6 +166,20 @@ RUN KUBEDOCK_ARCH="linux_amd64" && \
     && chmod +x /usr/local/bin/kubedock
 COPY --chown=0:0 kubedock_setup.sh /usr/local/bin/kubedock_setup
 
+# Download default extensions and to use within the container
+RUN mkdir --mode=775 /default-extensions
+RUN curl -LO https://open-vsx.org/api/llvm-vs-code-extensions/vscode-clangd/0.1.33/file/llvm-vs-code-extensions.vscode-clangd-0.1.33.vsix && \
+    curl -LO https://open-vsx.org/api/ms-vscode/cmake-tools/1.20.53/file/ms-vscode.cmake-tools-1.20.53.vsix && \
+    curl -LO https://open-vsx.org/api/PKief/material-icon-theme/5.21.1/file/PKief.material-icon-theme-5.21.1.vsix && \
+    curl -LO https://open-vsx.org/api/ms-python/python/2025.4.0/file/ms-python.python-2025.4.0.vsix && \
+    if [ "$TARGETARCH" = "arm64" ]; then \
+        curl -LO https://open-vsx.org/api/ms-python/debugpy/linux-x64/2025.6.0/file/ms-python.debugpy-2025.6.0@linux-x64.vsix \
+    else \
+        curl -LO https://open-vsx.org/api/ms-python/debugpy/linux-arm64/2025.6.0/file/ms-python.debugpy-2025.6.0@linux-arm64.vsix \
+    fi; && \
+    curl -LO https://open-vsx.org/api/redhat/vscode-yaml/1.17.0/file/redhat.vscode-yaml-1.17.0.vsix && \
+    curl -LO https://open-vsx.org/api/redhat/vscode-tekton-pipelines/1.0.1/file/redhat.vscode-tekton-pipelines-1.0.1.vsix
+
 # Configure Podman wrapper
 ENV PODMAN_WRAPPER_PATH=/usr/bin/podman.wrapper
 ENV ORIGINAL_PODMAN_PATH=/usr/bin/podman.orig
