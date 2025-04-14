@@ -17,6 +17,8 @@ components:
       env:
         - name: JUMPSTARTER_GRPC_INSECURE
           value: "1"
+        - name: DEFAULT_EXTENSIONS
+          value: "/checode/llvm-vs-code-extensions.vscode-clangd.vsix;/checode/ms-vscode.cmake-tools.vsix;/checode/pkief.material-icon-theme.vsix;/checode/ms-python.python.vsix;/checode/ms-python.debugpy.vsix;/checode/redhat.vscode-yaml.vsix;/checode/redhat.vscode-tekton-pipelines.vsix"
       volumeMounts:
         - name: run-vsomeip
           path: /run/vsomeip
