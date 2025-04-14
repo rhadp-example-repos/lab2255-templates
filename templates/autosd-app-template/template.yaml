@@ -89,7 +89,7 @@ spec:
           component_id: ${{ parameters.component_id }}
           description: ${{ parameters.description }}
           namespace: ${{ parameters.component_id }}-build
-          owner: ${{ user.entity.metadata.name }}
+          owner: User:${{ user.entity.metadata.name }}
           cluster: .apps.cluster-${{ parameters.guid }}.${{ parameters.guid }}.${{ parameters.base_domain }}
           host: gitlab-gitlab.apps.cluster-${{ parameters.guid }}.${{ parameters.guid }}.${{ parameters.base_domain }}
           destination: ${{ parameters.repo.owner }}/${{ parameters.component_id }}
