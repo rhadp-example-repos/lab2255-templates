@@ -61,23 +61,39 @@ spec:
               default: latest
               description: Build Image tag
 
-    - title: Provide Cluster Information
-      required:
-        - guid
-        - base_domain
-      properties:
-        guid:
-          title: Cluster GUID
-          type: string
-          description: "Unique identifier of the cluster. GUID = 6xw6w in https://..cluster-6xw6w.6xw6w.sandbox4358.opentlc.com. See the URL above !"
-          maxLength: 5
-        base_domain:
-          title: Cluster Domain
-          type: string
-          default: sandbox4358.opentlc.com
-          description: The base domain the cluster is running in. See the URL above !
-
   steps:
+    - id: request-url
+      name: Get cluster URL
+      action: http:backstage:request
+      input:
+        method: GET
+        path: /catalog/entities/by-name/template/default/autosd-app-template
+        headers:
+          Accept-Encoding: identity
+
+    - id: extract-url
+      name: Extract cluster URL
+      action: roadiehq:utils:jsonata
+      input:
+        data: ${{ steps['request-url'].output.body }}
+        expression: metadata.annotations."backstage.io/source-location"
+
+    - id: parse-url
+      name: Parse cluster URL
+      action: regex:replace
+      input:
+        regExps:
+          - pattern: (?:.*cluster-)(\w{5})(?:.*)
+            replacement: $1
+            values:
+              - key: guid
+                value: ${{ steps['extract-url'].output.result }}
+          - pattern: (?:.*)(cluster-\w{5}.*\.com)(?:.*)
+            replacement: $1
+            values:
+              - key: base_domain
+                value: ${{ steps['extract-url'].output.result }}
+
     - id: template
       name: Fetch Skeleton + Template
       action: fetch:template
@@ -90,18 +106,18 @@ spec:
           description: ${{ parameters.description }}
           namespace: ${{ parameters.component_id }}-build
           owner: User:${{ user.entity.metadata.name }}
-          cluster: .apps.cluster-${{ parameters.guid }}.${{ parameters.guid }}.${{ parameters.base_domain }}
-          host: gitlab-gitlab.apps.cluster-${{ parameters.guid }}.${{ parameters.guid }}.${{ parameters.base_domain }}
+          cluster: .apps.${{ steps['parse-url'].output.values.base_domain }}
+          host: gitlab-gitlab.apps.${{ steps['parse-url'].output.values.base_domain }}
           destination: ${{ parameters.repo.owner }}/${{ parameters.component_id }}
-          jumpstarter_host: grpc.apps.cluster-${{ parameters.guid }}.${{ parameters.guid }}.${{ parameters.base_domain }}:443
-          registry_host: quay-${{ parameters.guid }}.apps.cluster-${{ parameters.guid }}.${{ parameters.guid }}.${{ parameters.base_domain }}
+          jumpstarter_host: grpc.apps.${{ steps['parse-url'].output.values.base_domain }}:443
+          registry_host: quay-${{ steps['parse-url'].output.values.guid }}.apps.${{ steps['parse-url'].output.values.base_domain }}
           registry_destination: ${{ parameters.registry.organization}}/${{ parameters.component_id }}
 
     - id: publish
       name: Publish
       action: publish:gitlab
       input:
-        repoUrl: "gitlab-gitlab.apps.cluster-${{ parameters.guid }}.${{ parameters.guid }}.${{ parameters.base_domain }}?owner=${{ parameters.repo.owner }}&repo=${{parameters.component_id}}"
+        repoUrl: "gitlab-gitlab.apps.${{ steps['parse-url'].output.values.base_domain }}?owner=${{ parameters.repo.owner }}&repo=${{parameters.component_id}}"
         title: code resources for ${{ parameters.component_id }}
         defaultBranch: main
         repoVisibility: public
@@ -122,21 +138,21 @@ spec:
         values:
           component_id: ${{ parameters.component_id }}
           description: ${{ parameters.description }}
-          destination: https://gitlab-gitlab.apps.cluster-${{ parameters.guid }}.${{ parameters.guid }}.${{ parameters.base_domain }}/${{ parameters.repo.owner }}/${{parameters.component_id}}-gitops.git
-          source_repository: https://gitlab-gitlab.apps.cluster-${{ parameters.guid }}.${{ parameters.guid }}.${{ parameters.base_domain }}/${{ parameters.repo.owner }}/${{parameters.component_id}}.git
-          source_repository_pac: https://gitlab-gitlab.apps.cluster-${{ parameters.guid }}.${{ parameters.guid }}.${{ parameters.base_domain }}/${{ parameters.repo.owner }}/${{parameters.component_id}}
-          gitlab_url: https://gitlab-gitlab.apps.cluster-${{ parameters.guid }}.${{ parameters.guid }}.${{ parameters.base_domain }}/
+          destination: https://gitlab-gitlab.apps.${{ steps['parse-url'].output.values.base_domain }}/${{ parameters.repo.owner }}/${{parameters.component_id}}-gitops.git
+          source_repository: https://gitlab-gitlab.apps.${{ steps['parse-url'].output.values.base_domain }}/${{ parameters.repo.owner }}/${{parameters.component_id}}.git
+          source_repository_pac: https://gitlab-gitlab.apps.${{ steps['parse-url'].output.values.base_domain }}/${{ parameters.repo.owner }}/${{parameters.component_id}}
+          gitlab_url: https://gitlab-gitlab.apps.${{ steps['parse-url'].output.values.base_domain }}/
           repository_name: ${{parameters.component_id}}
           git_owner: ${{ parameters.repo.owner }}
-          cluster: .apps.cluster-${{ parameters.guid }}.${{ parameters.guid }}.${{ parameters.base_domain }}
+          cluster: .apps.${{ steps['parse-url'].output.values.base_domain }}
           namespace: ${{ parameters.component_id }}-dev
           image_registry: "Quay"
-          jumpstarter_host: grpc.apps.cluster-${{ parameters.guid }}.${{ parameters.guid }}.${{ parameters.base_domain }}:443
-          registry_host: quay-${{ parameters.guid }}.apps.cluster-${{ parameters.guid }}.${{ parameters.guid }}.${{ parameters.base_domain }}
+          jumpstarter_host: grpc.apps.${{ steps['parse-url'].output.values.base_domain }}:443
+          registry_host: quay-${{ steps['parse-url'].output.values.guid }}.apps.${{ steps['parse-url'].output.values.base_domain }}
           registry_organization: ${{ parameters.registry.organization }}
           image_name: ${{ parameters.component_id }}
           image_tag: ${{ parameters.registry.image_tag }}
-          repository_host: gitlab-gitlab.apps.cluster-${{ parameters.guid }}.${{ parameters.guid }}.${{ parameters.base_domain }}
+          repository_host: gitlab-gitlab.apps.${{ steps['parse-url'].output.values.base_domain }}
           deployment_name: ${{ parameters.component_id }}
           user: ${{ user.entity.metadata.name }}
         targetPath: ./tenant-gitops
@@ -145,7 +161,7 @@ spec:
       name: Publishing to Resource Repository
       action: publish:gitlab
       input:
-        repoUrl: "gitlab-gitlab.apps.cluster-${{ parameters.guid }}.${{ parameters.guid }}.${{ parameters.base_domain }}?owner=${{ parameters.repo.owner }}&repo=${{parameters.component_id}}-gitops"
+        repoUrl: "gitlab-gitlab.apps.${{ steps['parse-url'].output.values.base_domain }}?owner=${{ parameters.repo.owner }}&repo=${{parameters.component_id}}-gitops"
         title: gitops resources for ${{ parameters.component_id }}
         description: gitops resources for ${{ parameters.component_id }}
         sourcePath: ./tenant-gitops
@@ -159,7 +175,7 @@ spec:
         appName: ${{ parameters.component_id }}-bootstrap
         argoInstance: main
         namespace: janus-argocd
-        repoUrl: https://gitlab-gitlab.apps.cluster-${{ parameters.guid }}.${{ parameters.guid }}.${{ parameters.base_domain }}/${{ parameters.repo.owner }}/${{ parameters.component_id }}-gitops.git
+        repoUrl: https://gitlab-gitlab.apps.${{ steps['parse-url'].output.values.base_domain }}/${{ parameters.repo.owner }}/${{ parameters.component_id }}-gitops.git
         path: "argocd/"
 
   output:
