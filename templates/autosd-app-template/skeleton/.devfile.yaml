@@ -23,22 +23,22 @@ components:
         - name: run-dlt
           path: /run/dlt
       endpoints:
-        - name: "9000"
+        - name: "port9000"
           exposure: none
           targetPort: 9000
-        - name: "9001"
+        - name: "port9001"
           exposure: none
           targetPort: 9001
-        - name: "9002"
+        - name: "port9002"
           exposure: none
           targetPort: 9002
-        - name: "9003"
+        - name: "port9003"
           exposure: none
           targetPort: 9003
-        - name: "9004"
+        - name: "port9004"
           exposure: none
           targetPort: 9004
-        - name: "9005"
+        - name: "port9005"
           exposure: none
           targetPort: 9005
   - name: routingmanagerd
