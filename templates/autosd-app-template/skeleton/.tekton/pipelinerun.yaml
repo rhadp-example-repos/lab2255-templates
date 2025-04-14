@@ -40,9 +40,9 @@ spec:
     nodeSelector:
       kubernetes.io/arch: arm64
     tolerations:
-      - key: "arm"
+      - key: "architecture"
         operator: "Equal"
-        value: "true"
+        value: "arm"
         effect: "NoSchedule"
 
   pipelineSpec:
