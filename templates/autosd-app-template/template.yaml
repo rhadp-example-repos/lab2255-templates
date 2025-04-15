@@ -32,20 +32,8 @@ spec:
 
     - title: Source Code Repository and Container Registry Information
       required:
-        - repo
         - registry
       properties:
-        repo:
-          title: Repository Location
-          type: object
-          properties:
-            owner:
-              title: Repo Owner
-              type: string
-              default: development
-              description: Your SCM host organization/group
-              enum:
-                - development
         registry:
           title: Container Registry
           type: object
