@@ -18,6 +18,8 @@ jobs:
             name: exporter
           - runs-on: ubuntu-24.04-arm
             name: application
+          - runs-on: ubuntu-latest
+            name: che-code
     runs-on: ${{ matrix.runs-on }}
     permissions:
       packages: write
