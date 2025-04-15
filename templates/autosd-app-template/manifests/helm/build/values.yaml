@@ -1,6 +1,6 @@
 app:
   name: ${{values.component_id}}
-  namespace: ${{values.component_id}}-dev
+  namespace: ${{ values.user }}-${{values.component_id}}-dev
   cluster: ${{ values.cluster }}
 
 user: ${{ values.user }}
@@ -19,7 +19,8 @@ git:
 
 image:
   registry: ${{values.image_registry}}
-  organization: ${{values.registry_organization}}
+  organization: ${{ values.user }}
+  #organization: ${{values.registry_organization}}
   host: ${{ values.registry_host }}
   name: ${{ values.image_name }}
   tag: ${{ values.image_tag }}

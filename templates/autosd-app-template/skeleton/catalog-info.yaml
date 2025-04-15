@@ -1,18 +1,21 @@
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
-  name: ${{values.component_id | dump}}
+  name: ${{values.component_id}}
   {%- if values.description %}
-  description: ${{values.description | dump}}
+  description: ${{values.description}}
   {%- endif %}
   annotations:
-    argocd/app-selector: rht-gitops.com/janus-argocd=${{values.component_id}}-bootstrap
-    backstage.io/kubernetes-id: ${{values.component_id}}
-    janus-idp.io/tekton: ${{values.component_id}}
+    argocd/app-selector: rht-gitops.com/janus-argocd=${{values.owner}}-${{values.component_id}}-bootstrap
+    backstage.io/kubernetes-id: ${{values.owner}}--${{values.component_id}}
+    janus-idp.io/tekton: ${{values.owner}}-${{values.component_id}}
+    #argocd/app-selector: rht-gitops.com/janus-argocd=${{values.component_id}}-bootstrap
+    #backstage.io/kubernetes-id: ${{values.component_id}}
+    #janus-idp.io/tekton: ${{values.component_id}}
     backstage.io/source-location: url:https://${{values.host}}/${{values.destination}}
     backstage.io/techdocs-ref: url:https://${{values.host}}/${{values.destination}}
     gitlab.com/project-slug: ${{values.destination}}
-    quay.io/repository-slug: ${{values.registry_destination | dump}}
+    quay.io/repository-slug: ${{values.registry_destination}}
   tags:
     - automotive
     - rhivos
@@ -26,4 +29,4 @@ metadata:
 spec:
   type: service
   lifecycle: production
-  owner: ${{values.owner | dump}}
+  owner: User:${{values.owner}}

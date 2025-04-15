@@ -1,7 +1,7 @@
 # each .aib-ci.yml file needs at minimum a 'default' section
 default:
   # the name of the artifact
-  name: ffi
+  name: radioapp
   
   # how to build the artifact
   manifest: manifests/simple.aib.yml 
