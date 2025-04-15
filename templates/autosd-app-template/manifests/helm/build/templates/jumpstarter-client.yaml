@@ -1,7 +1,7 @@
 apiVersion: jumpstarter.dev/v1alpha1
 kind: Client
 metadata:
-  name: {{ .Values.app.name }}-build
+  name: {{ .Values.user }}-{{ .Values.app.name }}-build
   namespace: jumpstarter-qemu-exporter # FIXME: do not hardcode namespace
 spec:
   username: "kubernetes:{{ .Values.app.name }}-build"
