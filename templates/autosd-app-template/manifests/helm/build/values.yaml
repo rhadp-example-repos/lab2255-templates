@@ -1,4 +1,5 @@
 app:
+  component_id: ${{ values.component_id }}
   name: ${{ values.user }}-${{ values.component_id }}
   namespace: ${{ values.user }}-${{ values.component_id }}-dev
   cluster: ${{ values.cluster }}
