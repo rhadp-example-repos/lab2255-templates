@@ -173,13 +173,14 @@ RUN dnf module -y enable nodejs:20 \
     && dnf clean all \
     && rm -rf /var/cache/dnf
 RUN mkdir --mode=775 /default-extensions
-RUN ovsx get llvm-vs-code-extensions.vscode-clangd -o /default-extensions && \
-    ovsx get ms-vscode.cmake-tools                 -o /default-extensions && \
-    ovsx get PKief.material-icon-theme             -o /default-extensions && \
-    ovsx get ms-python.python                      -o /default-extensions && \
-    ovsx get ms-python.debugpy                     -o /default-extensions && \
-    ovsx get redhat.vscode-yaml                    -o /default-extensions && \
-    ovsx get redhat.vscode-tekton-pipelines        -o /default-extensions
+RUN if [ "$TARGETARCH" = "arm64" ]; then VSXARCH=arm64; else VSXARCH=x64; fi && \
+    ovsx get llvm-vs-code-extensions.vscode-clangd -o /default-extensions/1.vsix && \
+    ovsx get ms-vscode.cmake-tools                 -o /default-extensions/2.vsix && \
+    ovsx get PKief.material-icon-theme             -o /default-extensions/3.vsix && \
+    ovsx get ms-python.python                      -o /default-extensions/4.vsix && \
+    ovsx get ms-python.debugpy                     -o /default-extensions/5.vsix --target linux-$VSXARCH && \
+    ovsx get redhat.vscode-yaml                    -o /default-extensions/6.vsix && \
+    ovsx get redhat.vscode-tekton-pipelines        -o /default-extensions/7.vsix
 
 # Configure Podman wrapper
 ENV PODMAN_WRAPPER_PATH=/usr/bin/podman.wrapper
