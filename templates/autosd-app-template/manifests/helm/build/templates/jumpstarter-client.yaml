@@ -4,4 +4,4 @@ metadata:
   name: {{ .Values.user }}-{{ .Values.app.name }}-build
   namespace: jumpstarter-qemu-exporter # FIXME: do not hardcode namespace
 spec:
-  username: "kubernetes:{{ .Values.app.name }}-build"
+  username: "kubernetes:{{ .Values.user }}-{{ .Values.app.name }}-build"
