@@ -139,8 +139,8 @@ spec:
           registry_host: quay-${{ steps['parse-url'].output.values.guid }}.apps.${{ steps['parse-url'].output.values.base_domain }}
           #registry_host: quay-${{ parameters.guid }}.apps.cluster-${{ parameters.guid }}.${{ parameters.guid }}.${{ parameters.base_domain }}
           #registry_organization: ${{ user.entity.metadata.name }}
-          registry_organization: ${{ user.entity.metadata.name }}
-          image_name: ${{ parameters.component_id }}
+          registry_organization: quayadmin
+          image_name: ${{ user.entity.metadata.name }}-${{ parameters.component_id }}
           image_tag: latest
           repository_host: gitlab-gitlab.apps.${{ steps['parse-url'].output.values.base_domain }}
           #repository_host: gitlab-gitlab.apps.cluster-${{ parameters.guid }}.${{ parameters.guid }}.${{ parameters.base_domain }}
