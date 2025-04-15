@@ -2,11 +2,11 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
   name: pipeline-privileged-scc
-  namespace: ${{values.component_id}}-build
+  namespace: ${{values.user}}-${{values.component_id}}-build
 subjects:
   - kind: ServiceAccount
     name: pipeline
-    namespace: ${{values.component_id}}-build
+    namespace: ${{values.user}}-${{values.component_id}}-build
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole

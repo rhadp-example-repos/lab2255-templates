@@ -155,7 +155,7 @@ spec:
           - name: namespace
             value: jumpstarter-qemu-exporter
           - name: name
-            value: ${{values.component_id}}-build # templated in backstage
+            value: ${{values.owner}}-${{values.component_id}}-build # templated in backstage
           - name: insecure-tls
             value: "true"
         workspaces:
@@ -185,7 +185,7 @@ spec:
           - name: jmp-lease-id
             value: $(tasks.create-jumpstarter-lease.results.jmp-lease-id)
           - name: jmp-jScript
-            value: j flasher flash binaries/autosd9-qemu.qcow2
+            value: j flasher flash binaries/autosd9-qemu.qcow2 # FIXME this depends on the .aib-ci.yml connfiguration!
           - name: config
             value: "$(tasks.prepare-jumpstarter-config.results.config)"
 
