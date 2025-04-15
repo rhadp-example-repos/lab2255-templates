@@ -4,7 +4,7 @@ kind: PipelineRun
 metadata:
   name: test-with-jumpstarter
   labels:
-    backstage.io/kubernetes-id: ${{values.component_id | dump}}
+    backstage.io/kubernetes-id: ${{values.owner}}-${{values.component_id}}
     type: pipeline
   annotations:
     # The event we are targeting as seen from the webhook payload
@@ -252,4 +252,4 @@ spec:
 
   - name: docker-config
     secret:
-      secretName: ${{values.component_id}}-registry-creds # templated in backstage
+      secretName: ${{values.owner}}-${{values.component_id}}-registry-creds # templated in backstage
