@@ -172,7 +172,7 @@ spec:
           source_repository_pac: https://gitlab-gitlab.apps.${{ steps['parse-url'].output.values.base_domain }}/${{ user.entity.metadata.name }}/${{parameters.component_id}}
           #source_repository_pac: https://gitlab-gitlab.apps.cluster-${{ parameters.guid }}.${{ parameters.guid }}.${{ parameters.base_domain }}/${{ user.entity.metadata.name }}/${{parameters.component_id}}
           #source_repository_pac: https://gitlab-gitlab.apps.cluster-${{ parameters.guid }}.${{ parameters.guid }}.${{ parameters.base_domain }}/${{ parameters.repo.owner }}/${{parameters.component_id}}
-          gitlab_url: https://gitlab-gitlab.apps.${{ steps['parse-url'].output.values.base_domain }}.${{ parameters.base_domain }}/
+          gitlab_url: https://gitlab-gitlab.apps.${{ steps['parse-url'].output.values.base_domain }}/
           #gitlab_url: https://gitlab-gitlab.apps.cluster-${{ parameters.guid }}.${{ parameters.guid }}.${{ parameters.base_domain }}/
           repository_name: ${{parameters.component_id}}
           git_owner: ${{ user.entity.metadata.name }}
