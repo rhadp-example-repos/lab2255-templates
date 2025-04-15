@@ -30,6 +30,19 @@ data:
           vars:
             query: {{ "\"" }}[?name=='{{ "{{" }} git_project {{ "}}" }}'].id{{ "\"" }}
 
+        - name: Add root user to {{ "{{" }} git_project {{ "}}" }}
+          ansible.builtin.uri:
+            url: https://{{ "{{" }} git_host {{ "}}" }}/api/v4/projects/{{ "{{" }} git_project_id[0] {{ "}}" }}/members
+            method: POST
+            body_format: form-urlencoded
+            body:
+              user_id: 1
+              access_level: 50
+            headers:
+              PRIVATE-TOKEN: '{{ "{{" }} git_token {{ "}}" }}'
+            validate_certs: false
+            status_code: [201]
+
         - name: Create {{ "{{" }} git_project {{ "}}" }} web hook
           ansible.builtin.uri:
             url: https://{{ "{{" }} git_host {{ "}}" }}/api/v4/projects/{{ "{{" }} git_project_id[0] {{ "}}" }}/hooks
