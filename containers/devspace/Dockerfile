@@ -167,18 +167,19 @@ RUN KUBEDOCK_ARCH="linux_amd64" && \
 COPY --chown=0:0 kubedock_setup.sh /usr/local/bin/kubedock_setup
 
 # Download default extensions and to use within the container
+RUN dnf module -y enable nodejs:20 \
+    && dnf module -y install nodejs:20/common \
+    && npm install --global ovsx \
+    && dnf clean all \
+    && rm -rf /var/cache/dnf
 RUN mkdir --mode=775 /default-extensions
-RUN curl -L https://open-vsx.org/api/llvm-vs-code-extensions/vscode-clangd/0.1.33/file/llvm-vs-code-extensions.vscode-clangd-0.1.33.vsix -o /default-extensions/llvm-vs-code-extensions.vscode-clangd.vsix && \
-    curl -L https://open-vsx.org/api/ms-vscode/cmake-tools/1.20.53/file/ms-vscode.cmake-tools-1.20.53.vsix -o /default-extensions/ms-vscode.cmake-tools.vsix && \
-    curl -L https://open-vsx.org/api/PKief/material-icon-theme/5.21.1/file/PKief.material-icon-theme-5.21.1.vsix -o /default-extensions/pkief.material-icon-theme.vsix && \
-    curl -L https://open-vsx.org/api/ms-python/python/2025.4.0/file/ms-python.python-2025.4.0.vsix -o /default-extensions/ms-python.python.vsix && \
-    if [ "$TARGETARCH" = "arm64" ]; then \
-        curl -L https://open-vsx.org/api/ms-python/debugpy/linux-arm64/2025.6.0/file/ms-python.debugpy-2025.6.0@linux-arm64.vsix -o /default-extensions/ms-python.debugpy.vsix \
-    else \
-        curl -L https://open-vsx.org/api/ms-python/debugpy/linux-x64/2025.6.0/file/ms-python.debugpy-2025.6.0@linux-x64.vsix -o /default-extensions/ms-python.debugpy.vsix \
-    fi; && \
-    curl -L https://open-vsx.org/api/redhat/vscode-yaml/1.17.0/file/redhat.vscode-yaml-1.17.0.vsix -o /default-extensions/redhat.vscode-yaml.vsix && \
-    curl -L https://open-vsx.org/api/redhat/vscode-tekton-pipelines/1.0.1/file/redhat.vscode-tekton-pipelines-1.0.1.vsix -o /default-extensions/redhat.vscode-tekton-pipelines.vsix
+RUN ovsx get llvm-vs-code-extensions.vscode-clangd -o /default-extensions && \
+    ovsx get ms-vscode.cmake-tools                 -o /default-extensions && \
+    ovsx get PKief.material-icon-theme             -o /default-extensions && \
+    ovsx get ms-python.python                      -o /default-extensions && \
+    ovsx get ms-python.debugpy                     -o /default-extensions && \
+    ovsx get redhat.vscode-yaml                    -o /default-extensions && \
+    ovsx get redhat.vscode-tekton-pipelines        -o /default-extensions
 
 # Configure Podman wrapper
 ENV PODMAN_WRAPPER_PATH=/usr/bin/podman.wrapper
