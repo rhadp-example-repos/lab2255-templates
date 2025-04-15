@@ -43,23 +43,6 @@ data:
             validate_certs: false
             status_code: [201]
 
-        - name: Create {{ "{{" }} git_project {{ "}}" }} web hook
-          ansible.builtin.uri:
-            url: https://{{ "{{" }} git_host {{ "}}" }}/api/v4/projects/{{ "{{" }} git_project_id[0] {{ "}}" }}/hooks
-            method: POST
-            body_format: form-urlencoded
-            body:
-              url: '{{ "{{" }} webhook_url {{ "}}" }}'
-              push_events: true
-              tag_push_events: true
-              releases_events: true
-              token: '{{ "{{" }} webhook_secret {{ "}}" }}'
-              enable_ssl_verification: false
-            headers:
-              PRIVATE-TOKEN: '{{ "{{" }} git_token {{ "}}" }}'
-            validate_certs: false
-            status_code: [201]
-
         - name: Create {{ "{{" }} git_project {{ "}}" }} pipelines-as-code web hook
           ansible.builtin.uri:
             url: https://{{ "{{" }} git_host {{ "}}" }}/api/v4/projects/{{ "{{" }} git_project_id[0] {{ "}}" }}/hooks
