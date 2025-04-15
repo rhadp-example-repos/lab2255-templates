@@ -697,17 +697,3 @@ spec:
     email: user60@opentlc.com
     picture: https://api.dicebear.com/9.x/dylan/svg?seed=Aiden
   memberOf: [automotive]
----
-apiVersion: backstage.io/v1alpha1
-kind: Group
-metadata:
-  name: user8
-  description: user 8 group
-spec:
-  type: team
-  profile:
-    # Intentional no displayName for testing
-    email: user8@opentlc.com
-    picture: https://avatars.dicebear.com/api/identicon/team-a@example.com.svg?background=%23fff&margin=25
-  #parent: rhdh
-  children: []
