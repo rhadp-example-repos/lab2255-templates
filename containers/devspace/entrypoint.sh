@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Enable additional Che extensions
+cp -r /default-extensions /checode/
+
 # Ensure $HOME exists when starting
 if [ ! -d "${HOME}" ]; then
   mkdir -p "${HOME}"
