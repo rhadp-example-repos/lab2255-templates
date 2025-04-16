@@ -2,7 +2,7 @@
 apiVersion: tekton.dev/v1beta1
 kind: PipelineRun
 metadata:
-  name: test-with-jumpstarter
+  name: build-and-test
   labels:
     backstage.io/kubernetes-id: ${{values.owner}}-${{values.component_id}}
     type: pipeline
