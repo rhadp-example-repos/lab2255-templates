@@ -162,6 +162,24 @@ spec:
           - name: dockerconfig
             workspace: docker-config
 
+      - name: s3-upload
+        onError: continue
+        params:
+          - name: job_id
+            value: $(params.revision)
+          - name: component_id
+            value: $(params.component-id)
+          - name: os_image_name
+            value: $(tasks.automotive-image-builder.results.os-image-name)
+        runAfter:
+          - automotive-image-builder
+        taskRef:
+          kind: Task
+          name: s3-upload-task
+        workspaces:
+          - name: source
+            workspace: source-folder
+
       - name: prepare-jumpstarter-config
         taskRef:
           name: jumpstarter-setup-sa-client
