@@ -18,7 +18,7 @@ components:
         - name: JUMPSTARTER_GRPC_INSECURE
           value: "1"
         - name: DEFAULT_EXTENSIONS
-          value: "/checode/default-extensions/1.vsix;/checode/default-extensions/2.vsix;/checode/default-extensions/3.vsix;/checode/default-extensions/4.vsix;/checode/default-extensions/5.vsix;/checode/default-extensions/6.vsix;/checode/default-extensions/7.vsix"
+          value: "/checode/default-extensions/1.vsix;/checode/default-extensions/2.vsix;/checode/default-extensions/4.vsix;/checode/default-extensions/5.vsix"
       volumeMounts:
         - name: run-vsomeip
           path: /run/vsomeip
