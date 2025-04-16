@@ -6,9 +6,7 @@ metadata:
     {{- include "backstage.labels" . | nindent 4 }}
     {{- include "autosd-template.labels" . | nindent 4 }}
 spec:
-  {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
-  {{- end }}
   selector:
     matchLabels:
       {{- include "autosd-template.selectorLabels" . | nindent 6 }}
@@ -36,7 +34,7 @@ spec:
           image: {{ include "autosd-template.image" . }}
           ports:
             - name: socat
-              containerPort: 8000
+              containerPort: {{ .Values.service.port }}
               protocol: TCP          
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           resources:

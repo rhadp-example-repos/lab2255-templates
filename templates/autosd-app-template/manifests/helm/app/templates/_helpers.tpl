@@ -35,7 +35,6 @@ backstage.io/kubernetes-id: ${{values.component_id}}
 {{- define "autosd-template.labels" -}}
 backstage.io/kubernetes-id: ${{values.component_id}}
 helm.sh/chart: {{ include "autosd-template.chart" . }}
-app.openshift.io/runtime: quarkus
 {{ include "autosd-template.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
@@ -51,21 +50,6 @@ app.kubernetes.io/name: {{ include "autosd-template.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
-{{/*
-Create the name of the service account to use
-*/}}
-{{- define "autosd-template.serviceAccountName" -}}
-{{- if .Values.serviceAccount.create }}
-{{- default (include "autosd-template.fullname" .) .Values.serviceAccount.name }}
-{{- else }}
-{{- default "default" .Values.serviceAccount.name }}
-{{- end }}
-{{- end }}
-
 {{- define "autosd-template.image" -}}
-{{- if eq .Values.image.registry "Quay" }}
 {{- printf "%s/%s/%s:%s" .Values.image.host .Values.image.organization .Values.image.name .Values.image.tag -}}
-{{- else }}
-{{- printf "%s/%s/%s:latest" .Values.image.host .Values.namespace.name .Values.image.name -}}
-{{- end }}
 {{- end }}

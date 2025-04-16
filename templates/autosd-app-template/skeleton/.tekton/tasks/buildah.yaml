@@ -10,7 +10,7 @@ spec:
   - description: Reference of the image buildah will produce.
     name: IMAGE
     type: string
-  - default: registry.redhat.io/rhel8/buildah@sha256:5c7cd7c9a3d49e8905fc98693f6da605aeafae36bde5622dc78e12f31db3cd59
+  - default: registry.redhat.io/rhel8/buildah:8.10
     description: The location of the buildah builder image.
     name: BUILDER_IMAGE
     type: string

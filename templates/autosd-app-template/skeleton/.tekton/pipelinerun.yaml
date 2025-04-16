@@ -24,6 +24,7 @@ metadata:
     pipelinesascode.tekton.dev/task-5: ".tekton/tasks/download.yaml"
     pipelinesascode.tekton.dev/task-6: ".tekton/tasks/task-parse-aib-ci.yaml"
     pipelinesascode.tekton.dev/task-7: ".tekton/tasks/task-aib-builder.yaml"
+    pipelinesascode.tekton.dev/task-8: ".tekton/tasks/task-deploy.yaml"
 
     # How many runs we want to keep.
     pipelinesascode.tekton.dev/max-keep-runs: "5"
@@ -35,6 +36,10 @@ spec:
       value: "{{ repo_url }}"
     - name: revision
       value: "{{ revision }}"
+    - name: component-id
+      value: ${{values.component_id}}
+    - name: build-stage
+      value: "default"
 
   podTemplate:
     nodeSelector:
@@ -77,6 +82,8 @@ spec:
             value: ./src
           - name: DOCKERFILE
             value: ./src/Containerfile
+          - name: BUILD_EXTRA_ARGS
+            value: "--platform=linux/arm64"
         runAfter:
           - fetch-repository
         taskRef:
@@ -103,10 +110,22 @@ spec:
           - name: dockerconfig
             workspace: docker-config
 
+      - name: deploy-container
+        params:
+          - name: COMPONENT_ID
+            value: $(params.component-id)
+          - name: NAMESPACE
+            value: ${{values.owner}}-${{values.component_id}}-dev
+        runAfter:
+          - tag-container
+        taskRef:
+          kind: Task
+          name: deploy
+          
       - name: prepare-build
         params:
           - name: build-stage
-            value: default
+            value: $(params.build-stage)
         taskRef:
           kind: Task
           name: parse-aib-ci
@@ -136,7 +155,7 @@ spec:
           name: aib-builder-task
         runAfter:
           - prepare-build
-          - tag-container
+          - deploy-container
         workspaces:
           - name: source
             workspace: source-folder

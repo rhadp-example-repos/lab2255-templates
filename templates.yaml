@@ -7,5 +7,3 @@ spec:
   type: url
   targets:
     - templates/autosd-app-template/template.yaml
-    # - templates/autosd-pyapp-template/template.yaml
-    # - templates/jumpstarter-template/template.yaml
