@@ -90,7 +90,7 @@ commands:
         metadata:
           namespace: jumpstarter-qemu-exporter
           name: $(sed "s|-devspaces||" /run/secrets/kubernetes.io/serviceaccount/namespace)
-        endpoint: grpc.${CHE_DASHBOARD_URL#"https://devspaces."}:443
+        endpoint: jumpstarter-grpc.jumpstarter-lab.svc.cluster.local:8082
         token: $(cat /var/run/secrets/kubernetes.io/serviceaccount/token)
         drivers:
           allow: []
