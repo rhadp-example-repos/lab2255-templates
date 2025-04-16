@@ -53,3 +53,10 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 {{- define "autosd-template.image" -}}
 {{- printf "%s/%s/%s:%s" .Values.image.host .Values.image.organization .Values.image.name .Values.image.tag -}}
 {{- end }}
+
+{{/*
+Create the name of the service account to use
+*/}}
+{{- define "autosd-template.serviceAccountName" -}}
+{{- default (include "autosd-template.fullname" .) .Release.Name }}
+{{- end }}
