@@ -1,7 +1,6 @@
 #include <csignal>
 #include <iomanip>
 #include <iostream>
-#include <sstream>
 #include <cstdlib>
 #include <condition_variable>
 #include <thread>
