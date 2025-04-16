@@ -90,7 +90,7 @@ commands:
         metadata:
           namespace: jumpstarter-qemu-exporter
           name: $(sed "s|-devspaces||" /run/secrets/kubernetes.io/serviceaccount/namespace)
-        endpoint: jumpstarter-grpc.jumpstarter-lab.svc.cluster.local:8082
+        endpoint: ${{ values.jumpstarter_host }}
         token: $(cat /var/run/secrets/kubernetes.io/serviceaccount/token)
         drivers:
           allow: []
