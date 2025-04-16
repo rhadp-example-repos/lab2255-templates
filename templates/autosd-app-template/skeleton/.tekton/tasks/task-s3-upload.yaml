@@ -9,10 +9,6 @@ spec:
       description: "The reference used to track the job and access its assets"
       type: string
       default: ""
-    - name: component_id
-      description: "The conponent_id the job belongs to"
-      type: string
-      default: ""
     - name: os_image_name
       description: "The name of the image"
       type: string
@@ -22,6 +18,10 @@ spec:
       description: "The S3 bucket name"
       type: string
       default: "rhadp-aib-cdn"
+    - name: bucket_folder
+      description: "The location within the bucket to store the assets"
+      type: string
+      default: ""
     # secrets
     - name: aws-secrets-ref
       description: "Secret with the access key and secret key"
@@ -71,7 +71,7 @@ spec:
         python "$(workspaces.source.path)/$(params.scripts-location)/$(params.script)" \
           $(workspaces.source.path)/binaries/$(params.os_image_name) \
           -b $(params.bucket_name) \
-          -d $(params.component_id)/$(params.job_id)_$(params.os_image_name) \
+          -d $(params.bucket_folder)/$(params.job_id)_$(params.os_image_name) \
 
   workspaces:
     - name: source

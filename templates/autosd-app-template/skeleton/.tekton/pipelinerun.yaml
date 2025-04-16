@@ -25,6 +25,7 @@ metadata:
     pipelinesascode.tekton.dev/task-6: ".tekton/tasks/task-parse-aib-ci.yaml"
     pipelinesascode.tekton.dev/task-7: ".tekton/tasks/task-aib-builder.yaml"
     pipelinesascode.tekton.dev/task-8: ".tekton/tasks/task-deploy.yaml"
+    pipelinesascode.tekton.dev/task-9: ".tekton/tasks/task-s3-upload.yaml"
 
     # How many runs we want to keep.
     pipelinesascode.tekton.dev/max-keep-runs: "5"
@@ -121,7 +122,7 @@ spec:
         taskRef:
           kind: Task
           name: deploy
-          
+
       - name: prepare-build
         params:
           - name: build-stage
@@ -163,12 +164,11 @@ spec:
             workspace: docker-config
 
       - name: s3-upload
-        onError: continue
         params:
           - name: job_id
             value: $(params.revision)
-          - name: component_id
-            value: $(params.component-id)
+          - name: bucket_folder
+            value: ${{values.owner}}-${{values.component_id}}
           - name: os_image_name
             value: $(tasks.automotive-image-builder.results.os-image-name)
         runAfter:
@@ -206,7 +206,7 @@ spec:
             value:
               - type=virtual
           - name: lease-duration
-            value: '00:15:00'   # bump this
+            value: "00:15:00" # bump this
           - name: config
             value: "$(tasks.prepare-jumpstarter-config.results.config)"
 
@@ -272,21 +272,21 @@ spec:
   # Workspace definitions
   #
   workspaces:
-  - name: source-folder
-    volumeClaimTemplate:
-      spec:
-        storageClassName: gp3-csi
-        accessModes:
-          - ReadWriteOnce
-        resources:
-          requests:
-            storage: 10Gi
-  # This workspace will inject secret to help the git-clone task to be able to
-  # checkout the private repositories
-  - name: basic-auth
-    secret:
-      secretName: "{{ git_auth_secret }}"
+    - name: source-folder
+      volumeClaimTemplate:
+        spec:
+          storageClassName: gp3-csi
+          accessModes:
+            - ReadWriteOnce
+          resources:
+            requests:
+              storage: 10Gi
+    # This workspace will inject secret to help the git-clone task to be able to
+    # checkout the private repositories
+    - name: basic-auth
+      secret:
+        secretName: "{{ git_auth_secret }}"
 
-  - name: docker-config
-    secret:
-      secretName: ${{values.owner}}-${{values.component_id}}-registry-creds # templated in backstage
+    - name: docker-config
+      secret:
+        secretName: ${{values.owner}}-${{values.component_id}}-registry-creds # templated in backstage

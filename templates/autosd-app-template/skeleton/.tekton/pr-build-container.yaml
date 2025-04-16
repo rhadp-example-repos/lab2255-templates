@@ -25,6 +25,7 @@ metadata:
     pipelinesascode.tekton.dev/task-6: ".tekton/tasks/task-parse-aib-ci.yaml"
     pipelinesascode.tekton.dev/task-7: ".tekton/tasks/task-aib-builder.yaml"
     pipelinesascode.tekton.dev/task-8: ".tekton/tasks/task-deploy.yaml"
+    pipelinesascode.tekton.dev/task-9: ".tekton/tasks/task-s3-upload.yaml"
 
     # How many runs we want to keep.
     pipelinesascode.tekton.dev/max-keep-runs: "5"
