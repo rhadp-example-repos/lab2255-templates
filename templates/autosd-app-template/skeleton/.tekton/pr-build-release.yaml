@@ -2,17 +2,17 @@
 apiVersion: tekton.dev/v1beta1
 kind: PipelineRun
 metadata:
-  name: build-container
+  name: build-and-test
   labels:
     backstage.io/kubernetes-id: ${{values.owner}}-${{values.component_id}}
     type: pipeline
   annotations:
     # The event we are targeting as seen from the webhook payload
     # this can be an array too, i.e: [pull_request, push]
-    pipelinesascode.tekton.dev/on-event: "[push]"
+    pipelinesascode.tekton.dev/on-event: "[pull_request, push]"
 
     # The branch or tag we are targeting (ie: main, refs/tags/*)
-    pipelinesascode.tekton.dev/on-target-branch: "[develop]"
+    pipelinesascode.tekton.dev/on-target-branch: "[release]"
 
     # Fetch the git-clone task from hub, we are able to reference later on it
     # with taskRef and it will automatically be embedded into our pipeline.
@@ -122,6 +122,151 @@ spec:
         taskRef:
           kind: Task
           name: deploy
+
+      - name: prepare-build
+        params:
+          - name: build-stage
+            value: $(params.build-stage)
+        taskRef:
+          kind: Task
+          name: parse-aib-ci
+        runAfter:
+          - fetch-repository
+        workspaces:
+          - name: source
+            workspace: source-folder
+
+      - name: automotive-image-builder
+        params:
+          - name: manifest-file
+            value: $(tasks.prepare-build.results.manifest-file)
+          - name: distro
+            value: $(tasks.prepare-build.results.distro)
+          - name: arch
+            value: $(tasks.prepare-build.results.arch)
+          - name: target
+            value: $(tasks.prepare-build.results.target)
+          - name: mode
+            value: $(tasks.prepare-build.results.mode)
+          - name: export_format
+            value: $(tasks.prepare-build.results.export_format)
+
+        taskRef:
+          kind: Task
+          name: aib-builder-task
+        runAfter:
+          - prepare-build
+          - deploy-container
+        workspaces:
+          - name: source
+            workspace: source-folder
+          - name: dockerconfig
+            workspace: docker-config
+
+      - name: s3-upload
+        params:
+          - name: job_id
+            value: $(params.revision)
+          - name: bucket_folder
+            value: ${{values.owner}}-${{values.component_id}}
+          - name: os_image_name
+            value: $(tasks.automotive-image-builder.results.os-image-name)
+        runAfter:
+          - automotive-image-builder
+        taskRef:
+          kind: Task
+          name: s3-upload-task
+        workspaces:
+          - name: source
+            workspace: source-folder
+
+      - name: prepare-jumpstarter-config
+        taskRef:
+          name: jumpstarter-setup-sa-client
+          kind: Task
+        runAfter:
+          - fetch-repository
+        params:
+          - name: endpoint
+            value: ${{ values.jumpstarter_host }} # templated in backstage
+          - name: namespace
+            value: jumpstarter-qemu-exporter
+          - name: name
+            value: ${{values.owner}}-${{values.component_id}}-build # templated in backstage
+          - name: insecure-tls
+            value: "true"
+        workspaces:
+          - name: config-dir
+            workspace: source-folder
+            subPath: .jumpstarter
+
+      - name: create-jumpstarter-lease
+        params:
+          - name: exporter-labels
+            value:
+              - type=virtual
+          - name: lease-duration
+            value: "00:15:00" # bump this
+          - name: config
+            value: "$(tasks.prepare-jumpstarter-config.results.config)"
+
+        taskRef:
+          kind: Task
+          name: jumpstarter-get-lease
+        runAfter:
+          - prepare-jumpstarter-config
+          - automotive-image-builder
+
+      - name: flash-with-jumpstarter
+        params:
+          - name: jmp-lease-id
+            value: $(tasks.create-jumpstarter-lease.results.jmp-lease-id)
+          - name: jmp-jScript
+            value: j flasher flash binaries/$(tasks.automotive-image-builder.results.os-image-name)
+          - name: config
+            value: "$(tasks.prepare-jumpstarter-config.results.config)"
+
+        taskRef:
+          kind: Task
+          name: jumpstarter-run-command
+        runAfter:
+          - create-jumpstarter-lease
+        workspaces:
+          - name: source
+            workspace: source-folder
+
+      - name: test-with-jumpstarter
+        params:
+          - name: jmp-lease-id
+            value: $(tasks.create-jumpstarter-lease.results.jmp-lease-id)
+          - name: jmp-jScript
+            value: pytest
+          - name: config
+            value: "$(tasks.prepare-jumpstarter-config.results.config)"
+
+        taskRef:
+          kind: Task
+          name: jumpstarter-run-command
+        runAfter:
+          - flash-with-jumpstarter
+        workspaces:
+          - name: source
+            workspace: source-folder
+    #
+    # Final tasks to release resources and clean up
+    #
+    finally:
+      # always try to release a lease if something goes wrong
+      - name: release
+        params:
+          - name: jmp-lease-id
+            value: $(tasks.create-jumpstarter-lease.results.jmp-lease-id)
+          - name: config
+            value: "$(tasks.prepare-jumpstarter-config.results.config)"
+
+        taskRef:
+          kind: Task
+          name: jumpstarter-release-lease
 
   #
   # Workspace definitions

@@ -92,7 +92,7 @@ spec:
         repoVisibility: public
 
     - id: register
-      name: Register
+      name: Register Catalog Info
       action: catalog:register
       input:
         repoContentsUrl: ${{ steps.publish.output.repoContentsUrl }}
