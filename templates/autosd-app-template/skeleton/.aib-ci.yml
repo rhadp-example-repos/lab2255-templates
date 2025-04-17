@@ -1,10 +1,10 @@
 # each .aib-ci.yml file needs at minimum a 'default' section
 default:
   # the name of the artifact
-  name: radioapp
+  name: ${{values.owner}}-${{values.component_id}}
   
   # how to build the artifact
-  manifest: manifests/simple.aib.yml 
+  manifest: manifests/radioapp.aib.yml 
 
   # list of parameters for the automotive-image-builder
   spec:

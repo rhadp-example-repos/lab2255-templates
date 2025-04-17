@@ -20,7 +20,6 @@ git:
 
 image:
   registry: ${{values.image_registry}}
-  #organization: ${{ values.user }}
   organization: ${{values.registry_organization}}
   host: ${{ values.registry_host }}
   name: ${{ values.image_name }}
@@ -28,3 +27,4 @@ image:
 
 jumpstarter:
   host: ${{ values.jumpstarter_host }}
+  namespace: jumpstarter-qemu-exporter

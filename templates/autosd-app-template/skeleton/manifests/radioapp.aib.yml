@@ -1,6 +1,8 @@
-# This is a simpler example showing how to add a custom rpm and set the root password
+# This is a simpler example showing
+# - how to add custom rpms and containers
+# - how to set the root password
 
-name: simple
+name: ${{values.owner}}-${{values.component_id}}
 
 content:
   repos:

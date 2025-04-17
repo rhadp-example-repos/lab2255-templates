@@ -3,7 +3,7 @@ kind: Template
 metadata:
   name: autosd-app-template
   title: AutoSD Sample Application
-  description: Applications that demonstrate how typical automotive applications use SOME/IP to talk to each other.
+  description: Sample app that demonstrate how typical automotive applications use SOME/IP to talk to each other.
   tags:
     - automotive
     - autosd
@@ -21,18 +21,18 @@ spec:
           title: Name
           type: string
           default: autosd-app
-          description: Unique name of the project
+          description: Unique name of your project
           ui:field: EntityNamePicker
           maxLength: 23
         description:
           title: Description
           type: string
-          default: Applications that demonstrate how typical automotive applications use SOME/IP to talk to each other.
-          description: Help others understand what this build is for.
+          default: Sample app that demonstrate how typical automotive applications use SOME/IP to talk to each other.
+          description: Help others understand what this project is about.
 
   steps:
     - id: request-url
-      name: Get cluster URL
+      name: Extract cluster info 1
       action: http:backstage:request
       input:
         method: GET
@@ -41,14 +41,14 @@ spec:
           Accept-Encoding: identity
 
     - id: extract-url
-      name: Extract cluster URL
+      name: Extract cluster info 2
       action: roadiehq:utils:jsonata
       input:
         data: ${{ steps['request-url'].output.body }}
         expression: metadata.annotations."backstage.io/source-location"
 
     - id: parse-url
-      name: Parse cluster URL
+      name: Extract cluster info 3
       action: regex:replace
       input:
         regExps:
@@ -64,7 +64,7 @@ spec:
                 value: ${{ steps['extract-url'].output.result }}
 
     - id: template
-      name: Fetch Skeleton + Template
+      name: Generating Development Resources
       action: fetch:template
       input:
         url: ./skeleton
@@ -74,27 +74,19 @@ spec:
           component_id: ${{ parameters.component_id }}
           description: ${{ parameters.description }}
           namespace: ${{ user.entity.metadata.name }}-${{ parameters.component_id }}-build
-          # namespace: ${{ parameters.component_id }}-build
           owner: ${{ user.entity.metadata.name }}
           cluster: .apps.${{ steps['parse-url'].output.values.base_domain }}
-          #cluster: .apps.cluster-${{ parameters.guid }}.${{ parameters.guid }}.${{ parameters.base_domain }}
           host: gitlab-gitlab.apps.${{ steps['parse-url'].output.values.base_domain }}
-          #host: gitlab-gitlab.apps.cluster-${{ parameters.guid }}.${{ parameters.guid }}.${{ parameters.base_domain }}
           destination: ${{ user.entity.metadata.name }}/${{ parameters.component_id }}
-          #destination: ${{ parameters.repo.owner }}/${{ parameters.component_id }}
           jumpstarter_host: jumpstarter-grpc.jumpstarter-lab.svc.cluster.local:8082
           registry_host: quay-${{ steps['parse-url'].output.values.guid }}.apps.${{ steps['parse-url'].output.values.base_domain }}
-          #registry_host: quay-${{ parameters.guid }}.apps.cluster-${{ parameters.guid }}.${{ parameters.guid }}.${{ parameters.base_domain }}
-          #registry_destination: ${{ user.entity.metadata.name }}/${{ parameters.component_id }}
           registry_destination: quayadmin/${{ user.entity.metadata.name }}-${{ parameters.component_id }}
 
     - id: publish
-      name: Publish
+      name: Publish Development Resources
       action: publish:gitlab
       input:
         repoUrl: "gitlab-gitlab.apps.${{ steps['parse-url'].output.values.base_domain }}?owner=${{ user.entity.metadata.name }}&repo=${{parameters.component_id}}"
-        #repoUrl: "gitlab-gitlab.apps.cluster-${{ parameters.guid }}.${{ parameters.guid }}.${{ parameters.base_domain }}?owner=${{ user.entity.metadata.name }}&repo=${{parameters.component_id}}"
-        #repoUrl: "gitlab-gitlab.apps.cluster-${{ parameters.guid }}.${{ parameters.guid }}.${{ parameters.base_domain }}?owner=${{ parameters.repo.owner }}&repo=${{parameters.component_id}}"
         title: code resources for ${{ parameters.component_id }}
         defaultBranch: main
         repoVisibility: public
@@ -116,43 +108,29 @@ spec:
           component_id: ${{ parameters.component_id }}
           description: ${{ parameters.description }}
           destination: https://gitlab-gitlab.apps.${{ steps['parse-url'].output.values.base_domain }}/${{ user.entity.metadata.name }}/${{parameters.component_id}}-gitops.git
-          #destination: https://gitlab-gitlab.apps.cluster-${{ parameters.guid }}.${{ parameters.guid }}.${{ parameters.base_domain }}/${{ user.entity.metadata.name }}/${{parameters.component_id}}-gitops.git
-          #destination: https://gitlab-gitlab.apps.cluster-${{ parameters.guid }}.${{ parameters.guid }}.${{ parameters.base_domain }}/${{ parameters.repo.owner }}/${{parameters.component_id}}-gitops.git
           source_repository: https://gitlab-gitlab.apps.${{ steps['parse-url'].output.values.base_domain }}/${{ user.entity.metadata.name }}/${{parameters.component_id}}.git
-          #source_repository: https://gitlab-gitlab.apps.cluster-${{ parameters.guid }}.${{ parameters.guid }}.${{ parameters.base_domain }}/${{ user.entity.metadata.name }}/${{parameters.component_id}}.git
-          #source_repository: https://gitlab-gitlab.apps.cluster-${{ parameters.guid }}.${{ parameters.guid }}.${{ parameters.base_domain }}/${{ parameters.repo.owner }}/${{parameters.component_id}}.git
           source_repository_pac: https://gitlab-gitlab.apps.${{ steps['parse-url'].output.values.base_domain }}/${{ user.entity.metadata.name }}/${{parameters.component_id}}
-          #source_repository_pac: https://gitlab-gitlab.apps.cluster-${{ parameters.guid }}.${{ parameters.guid }}.${{ parameters.base_domain }}/${{ user.entity.metadata.name }}/${{parameters.component_id}}
-          #source_repository_pac: https://gitlab-gitlab.apps.cluster-${{ parameters.guid }}.${{ parameters.guid }}.${{ parameters.base_domain }}/${{ parameters.repo.owner }}/${{parameters.component_id}}
           gitlab_url: https://gitlab-gitlab.apps.${{ steps['parse-url'].output.values.base_domain }}/
-          #gitlab_url: https://gitlab-gitlab.apps.cluster-${{ parameters.guid }}.${{ parameters.guid }}.${{ parameters.base_domain }}/
           repository_name: ${{parameters.component_id}}
           git_owner: ${{ user.entity.metadata.name }}
-          #git_owner: ${{ parameters.repo.owner }}
           cluster: .apps.${{ steps['parse-url'].output.values.base_domain }}
-          #cluster: .apps.cluster-${{ parameters.guid }}.${{ parameters.guid }}.${{ parameters.base_domain }}
           namespace: ${{ user.entity.metadata.name }}-${{ parameters.component_id }}-dev
           image_registry: "Quay"
           jumpstarter_host: jumpstarter-grpc.jumpstarter-lab.svc.cluster.local:8082
           registry_host: quay-${{ steps['parse-url'].output.values.guid }}.apps.${{ steps['parse-url'].output.values.base_domain }}
-          #registry_host: quay-${{ parameters.guid }}.apps.cluster-${{ parameters.guid }}.${{ parameters.guid }}.${{ parameters.base_domain }}
-          #registry_organization: ${{ user.entity.metadata.name }}
           registry_organization: quayadmin
           image_name: ${{ user.entity.metadata.name }}-${{ parameters.component_id }}
           image_tag: latest
           repository_host: gitlab-gitlab.apps.${{ steps['parse-url'].output.values.base_domain }}
-          #repository_host: gitlab-gitlab.apps.cluster-${{ parameters.guid }}.${{ parameters.guid }}.${{ parameters.base_domain }}
           deployment_name: ${{ parameters.component_id }}
           user: ${{ user.entity.metadata.name }}
         targetPath: ./tenant-gitops
 
     - id: publish-gitops
-      name: Publishing to Resource Repository
+      name: Publish Deployment Resources
       action: publish:gitlab
       input:
         repoUrl: "gitlab-gitlab.apps.${{ steps['parse-url'].output.values.base_domain }}?owner=${{ user.entity.metadata.name }}&repo=${{parameters.component_id}}-gitops"
-        #repoUrl: "gitlab-gitlab.apps.cluster-${{ parameters.guid }}.${{ parameters.guid }}.${{ parameters.base_domain }}?owner=${{ user.entity.metadata.name }}&repo=${{parameters.component_id}}-gitops"
-        #repoUrl: "gitlab-gitlab.apps.cluster-${{ parameters.guid }}.${{ parameters.guid }}.${{ parameters.base_domain }}?owner=${{ parameters.repo.owner }}&repo=${{parameters.component_id}}-gitops"
         title: gitops resources for ${{ parameters.component_id }}
         description: gitops resources for ${{ parameters.component_id }}
         sourcePath: ./tenant-gitops
@@ -160,16 +138,13 @@ spec:
         repoVisibility: public
 
     - id: create-argocd-resources
-      name: Create GitOps Resources
+      name: Register GitOps Resources
       action: argocd:create-resources
       input:
         appName: ${{ user.entity.metadata.name }}-${{ parameters.component_id }}-bootstrap
-        #appName: ${{ parameters.component_id }}-bootstrap
         argoInstance: main
         namespace: janus-argocd
         repoUrl: https://gitlab-gitlab.apps.${{ steps['parse-url'].output.values.base_domain }}/${{ user.entity.metadata.name }}/${{ parameters.component_id }}-gitops.git
-        #repoUrl: https://gitlab-gitlab.apps.cluster-${{ parameters.guid }}.${{ parameters.guid }}.${{ parameters.base_domain }}/${{ user.entity.metadata.name }}/${{ parameters.component_id }}-gitops.git
-        #repoUrl: https://gitlab-gitlab.apps.cluster-${{ parameters.guid }}.${{ parameters.guid }}.${{ parameters.base_domain }}/${{ parameters.repo.owner }}/${{ parameters.component_id }}-gitops.git
         path: "argocd/"
 
   output:

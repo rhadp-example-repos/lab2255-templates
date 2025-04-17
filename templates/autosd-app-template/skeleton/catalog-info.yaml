@@ -9,24 +9,22 @@ metadata:
     argocd/app-selector: rht-gitops.com/janus-argocd=${{values.owner}}-${{values.component_id}}-bootstrap
     backstage.io/kubernetes-id: ${{values.owner}}-${{values.component_id}}
     janus-idp.io/tekton: ${{values.owner}}-${{values.component_id}}
-    #argocd/app-selector: rht-gitops.com/janus-argocd=${{values.component_id}}-bootstrap
-    #backstage.io/kubernetes-id: ${{values.component_id}}
-    #janus-idp.io/tekton: ${{values.component_id}}
     backstage.io/source-location: url:https://${{values.host}}/${{values.destination}}
     backstage.io/techdocs-ref: url:https://${{values.host}}/${{values.destination}}
     gitlab.com/project-slug: ${{values.destination}}
     quay.io/repository-slug: ${{values.registry_destination}}
   tags:
     - automotive
-    - rhivos
+    - autosd
+    - jumpstarter
+    - cpp
   links:
     - url: https://devspaces${{values.cluster}}/#https://${{values.host}}/${{values.destination}}
       title: "DevSpace ${{values.component_id}}"
-      icon: web
     - url: https://devspaces${{values.cluster}}
-      title: OpenShift DevSpaces Workspaces
-      icon: web
+      title: OpenShift Dev Spaces Workspaces
+      
 spec:
-  type: service
-  lifecycle: production
+  type: application
+  lifecycle: development
   owner: User:${{values.owner}}

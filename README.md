@@ -1,2 +1,3 @@
 # lab2255-templates
-Red Hat Developer Hub Templates (RH Summit 2025)
+
+A collection of templates to demonstrate the Red Hat Automotive Development Platform (RHADP) at Red Hat Summit 2025.
