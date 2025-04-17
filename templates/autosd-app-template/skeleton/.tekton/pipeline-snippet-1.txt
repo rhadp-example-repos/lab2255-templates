@@ -34,7 +34,7 @@
           name: aib-builder-task
         runAfter:
           - prepare-build
-          - deploy-container
+          - tag-container
         workspaces:
           - name: source
             workspace: source-folder

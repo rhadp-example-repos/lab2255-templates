@@ -1,4 +1,5 @@
-# each .aib-ci.yml file needs at minimum a 'default' section
+# Each .aib-ci.yml file needs at minimum a 'default' section
+
 default:
   # the name of the artifact
   name: ${{values.owner}}-${{values.component_id}}
@@ -14,16 +15,16 @@ default:
     mode: package # package image
     export_format: qcow2 # image qcow2 container
 
-# Other targets can be added to the file. Possible values are: test, release
+# Other targets can be added Possible values are: test, release. 
+# These values are used in the various pipelines, to match the specified 'build-stage' values.
+
 test:
-  # values in this section override the default values above
+  # Used in the 'pr-build-test' pipeline. Values in this section override the default values above
   spec:
     target: qemu
-    mode: image
     
 release:
-  # values in this section override the default values above
+  # Used in the 'pr-build-release' pipeline. Values in this section override the default values above
   spec:
     target: qemu # rpi4
-    mode: image
     
