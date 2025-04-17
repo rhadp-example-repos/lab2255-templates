@@ -14,10 +14,16 @@ default:
     mode: package # package image
     export_format: qcow2 # image qcow2 container
 
-# TODO: other targets can be added to the file. possible values are: test, validate
+# Other targets can be added to the file. Possible values are: test, release
 test:
   # values in this section override the default values above
   spec:
     target: qemu
     mode: image
-    export_format: qcow2
+    
+release:
+  # values in this section override the default values above
+  spec:
+    target: qemu # rpi4
+    mode: image
+    

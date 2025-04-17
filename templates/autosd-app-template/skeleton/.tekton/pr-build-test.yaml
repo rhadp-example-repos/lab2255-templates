@@ -40,7 +40,7 @@ spec:
     - name: component-id
       value: ${{values.component_id}}
     - name: build-stage
-      value: "default"
+      value: "test"
 
   podTemplate:
     nodeSelector:

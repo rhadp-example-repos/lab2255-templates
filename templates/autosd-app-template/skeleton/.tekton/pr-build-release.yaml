@@ -2,7 +2,7 @@
 apiVersion: tekton.dev/v1beta1
 kind: PipelineRun
 metadata:
-  name: build-and-test
+  name: build-release
   labels:
     backstage.io/kubernetes-id: ${{values.owner}}-${{values.component_id}}
     type: pipeline
@@ -40,7 +40,7 @@ spec:
     - name: component-id
       value: ${{values.component_id}}
     - name: build-stage
-      value: "default"
+      value: "release"
 
   podTemplate:
     nodeSelector:
@@ -111,18 +111,6 @@ spec:
           - name: dockerconfig
             workspace: docker-config
 
-      - name: deploy-container
-        params:
-          - name: COMPONENT_ID
-            value: $(params.component-id)
-          - name: NAMESPACE
-            value: ${{values.owner}}-${{values.component_id}}-dev
-        runAfter:
-          - tag-container
-        taskRef:
-          kind: Task
-          name: deploy
-
       - name: prepare-build
         params:
           - name: build-stage
@@ -156,29 +144,12 @@ spec:
           name: aib-builder-task
         runAfter:
           - prepare-build
-          - deploy-container
+          - tag-container
         workspaces:
           - name: source
             workspace: source-folder
           - name: dockerconfig
             workspace: docker-config
-
-      - name: s3-upload
-        params:
-          - name: job_id
-            value: $(params.revision)
-          - name: bucket_folder
-            value: ${{values.owner}}-${{values.component_id}}
-          - name: os_image_name
-            value: $(tasks.automotive-image-builder.results.os-image-name)
-        runAfter:
-          - automotive-image-builder
-        taskRef:
-          kind: Task
-          name: s3-upload-task
-        workspaces:
-          - name: source
-            workspace: source-folder
 
       - name: prepare-jumpstarter-config
         taskRef:
@@ -235,23 +206,6 @@ spec:
           - name: source
             workspace: source-folder
 
-      - name: test-with-jumpstarter
-        params:
-          - name: jmp-lease-id
-            value: $(tasks.create-jumpstarter-lease.results.jmp-lease-id)
-          - name: jmp-jScript
-            value: pytest
-          - name: config
-            value: "$(tasks.prepare-jumpstarter-config.results.config)"
-
-        taskRef:
-          kind: Task
-          name: jumpstarter-run-command
-        runAfter:
-          - flash-with-jumpstarter
-        workspaces:
-          - name: source
-            workspace: source-folder
     #
     # Final tasks to release resources and clean up
     #
