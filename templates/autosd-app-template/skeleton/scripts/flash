@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+set -euxo pipefail
+
+REV=$(git rev-parse HEAD)
+IMG=$(mktemp)
+URL="https://rhadp-aib-cdn.s3.us-east-2.amazonaws.com/${{ values.owner }}-${{ values.component_id }}/${REV}_autosd9-qemu.qcow2"
+
+trap 'rm -- "${IMG}"' EXIT
+
+curl --fail  -o "${IMG}" "${URL}"
+j flasher flash "${IMG}"
