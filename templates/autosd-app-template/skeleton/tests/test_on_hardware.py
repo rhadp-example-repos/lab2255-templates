@@ -1,9 +1,6 @@
 import logging
-import os
 import sys
-import time
 
-import pytest
 from jumpstarter_testing.pytest import JumpstarterTest
 
 
@@ -20,9 +17,11 @@ class TestOnHardware(JumpstarterTest):
         with client.console.pexpect() as console:
             console.logfile_read = sys.stdout.buffer
             console.expect_exact("login:", timeout=120)
-            console.sendline(client.qemu.username) # this breaks the hardware abstraction, we need a constant
+            console.sendline(
+                client.qemu.username
+            )  # this breaks the hardware abstraction, we need a constant
             console.expect_exact("Password:", timeout=10)
-            console.sendline(client.qemu.password) # same here!
+            console.sendline(client.qemu.password)  # same here!
             console.expect_exact("]$", timeout=10)
             console.sendline("uname -a")
             console.expect_exact("]$", timeout=10)
