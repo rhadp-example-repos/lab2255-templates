@@ -25,8 +25,14 @@ def upload_to_s3(source_file, bucket_name, destination_key=None):
 
     try:
         s3_client.upload_file(source_file, bucket_name, destination_key)
+        region = (
+            s3_client.get_bucket_location(bucket_name)["LocationConstraint"]
+            or "us-east-1"
+        )
+        print(f"https://{bucket_name}.s3.{region}.amazonaws.com/{destination_key}")
         return True
-    except Exception:
+    except Exception as e:
+        print(f"Error: Upload failed: {e}", file=sys.stderr)
         return False
 
 
@@ -42,7 +48,7 @@ def main():
 
     # Check if source file exists
     if not os.path.isfile(args.source_file):
-        print(f"Error: Source file {args.source_file} does not exist")
+        print(f"Error: Source file {args.source_file} does not exist", file=sys.stderr)
         sys.exit(1)
 
     success = upload_to_s3(args.source_file, args.bucket, args.destination)
