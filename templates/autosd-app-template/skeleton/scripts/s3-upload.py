@@ -26,7 +26,7 @@ def upload_to_s3(source_file, bucket_name, destination_key=None):
     try:
         s3_client.upload_file(source_file, bucket_name, destination_key)
         region = (
-            s3_client.get_bucket_location(bucket_name)["LocationConstraint"]
+            s3_client.get_bucket_location(Bucket=bucket_name)["LocationConstraint"]
             or "us-east-1"
         )
         print(f"https://{bucket_name}.s3.{region}.amazonaws.com/{destination_key}")
