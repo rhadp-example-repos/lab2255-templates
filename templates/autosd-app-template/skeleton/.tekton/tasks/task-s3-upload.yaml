@@ -37,6 +37,11 @@ spec:
       type: string
       default: "scripts"
 
+  results:
+    - description: Download URL of the uploaded image
+      name: url
+      type: string
+
   steps:
     - name: s3-upload
       image: registry.access.redhat.com/ubi9/python-312:9.5
@@ -71,7 +76,7 @@ spec:
         python "$(workspaces.source.path)/$(params.scripts-location)/$(params.script)" \
           $(workspaces.source.path)/binaries/$(params.os_image_name) \
           -b $(params.bucket_name) \
-          -d $(params.bucket_folder)/$(params.job_id)_$(params.os_image_name) \
+          -d $(params.bucket_folder)/$(params.job_id)_$(params.os_image_name) > $(results.url.path)
 
   workspaces:
     - name: source
