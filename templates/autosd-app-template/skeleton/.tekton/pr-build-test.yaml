@@ -55,6 +55,11 @@ spec:
     params:
       - name: repo_url
       - name: revision
+
+    results:
+      - name: image-url
+        value: "$(tasks.s3-upload.results.url)"
+
     workspaces:
       - name: source-folder
       - name: basic-auth
