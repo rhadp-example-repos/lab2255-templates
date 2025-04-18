@@ -4,6 +4,9 @@
 
 name: ${{values.owner}}-${{values.component_id}}
 
+image:
+  selinux_mode: permissive
+
 content:
   repos:
     - id: epel
@@ -27,6 +30,12 @@ content:
   add_files:
     - path: /etc/containers/systemd/radio.container
       source_path: ../src/radio.container
+    - path: /usr/local/bin/radio-client
+      source_path: ../src/radio-client-wrapper
+
+  chmod_files:
+    - path: /usr/local/bin/radio-client
+      mode: "0555"
 
   systemd:
     enabled_services:
