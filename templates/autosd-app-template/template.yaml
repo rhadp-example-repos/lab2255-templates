@@ -2,8 +2,8 @@ apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
   name: autosd-app-template
-  title: AutoSD Sample Application
-  description: Sample app that demonstrate how typical automotive applications use SOME/IP to talk to each other.
+  title: LB2255 - Jumpstarter
+  description: LB2255 - Jumpstarter: An open source framework for hardware-in-the-loop testing in modern DevSecOps pipelines
   tags:
     - automotive
     - autosd
@@ -27,7 +27,7 @@ spec:
         description:
           title: Description
           type: string
-          default: Sample app that demonstrate how typical automotive applications use SOME/IP to talk to each other.
+          default: LB2255 - Jumpstarter: An open source framework for hardware-in-the-loop testing in modern DevSecOps pipelines
           description: Help others understand what this project is about.
 
   steps:
