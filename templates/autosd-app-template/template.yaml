@@ -20,7 +20,7 @@ spec:
         component_id:
           title: Name
           type: string
-          default: autosd-app
+          default: jumpstarter-lab
           description: Unique name of your project
           ui:field: EntityNamePicker
           maxLength: 23
