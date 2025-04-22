@@ -3,7 +3,7 @@ kind: Template
 metadata:
   name: autosd-app-template
   title: LB2255 - Jumpstarter
-  description: LB2255 - Jumpstarter: An open source framework for hardware-in-the-loop testing in modern DevSecOps pipelines
+  description: "LB2255 - Jumpstarter: An open source framework for hardware-in-the-loop testing in modern DevSecOps pipelines"
   tags:
     - automotive
     - autosd
@@ -27,7 +27,7 @@ spec:
         description:
           title: Description
           type: string
-          default: LB2255 - Jumpstarter: An open source framework for hardware-in-the-loop testing in modern DevSecOps pipelines
+          default: "LB2255 - Jumpstarter: An open source framework for hardware-in-the-loop testing in modern DevSecOps pipelines"
           description: Help others understand what this project is about.
 
   steps:
