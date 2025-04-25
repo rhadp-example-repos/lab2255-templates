@@ -1,13 +1,15 @@
 import logging
 import sys
 
+import pytest
+
 from jumpstarter_testing.pytest import JumpstarterTest
 
 
 log = logging.getLogger(__name__)
 
 
-class TestOnHardware(JumpstarterTest):
+class TestRHIVOSOnHardware(JumpstarterTest):
     selector = "type=virtual"
 
     def test_boot(self, client):
@@ -15,23 +17,35 @@ class TestOnHardware(JumpstarterTest):
         log.info("Testing boot process")
         client.power.cycle()
         with client.console.pexpect() as console:
-            console.logfile_read = sys.stdout.buffer
+            # uncomment this if you want to see the console in action while testing
+            # console.logfile_read = sys.stdout.buffer
             console.expect_exact("login:", timeout=120)
             console.sendline("root")
             console.expect_exact("Password:", timeout=10)
             console.sendline("password")
             console.expect_exact("]#", timeout=10)
+    def test_uname(self, client):
+        with client.console.pexpect() as console:
             console.sendline("uname -a")
             console.expect_exact("]#", timeout=10)
             print(console.before.decode())
 
+    @pytest.mark.skip(reason="will test this once we build our app")
+    def test_podman_images(self, client):
+        with client.console.pexpect() as console:
             console.sendline("podman images")
             console.expect_exact("]#", timeout=10)
             assert "localhost/app" in console.before.decode()
 
+    @pytest.mark.skip(reason="will test this once we build our app")
+    def test_radio_service(self, client):
+        with client.console.pexpect() as console:
             console.sendline("systemctl status --no-pager radio.service")
             console.expect_exact("]#", timeout=10)
 
+    @pytest.mark.skip(reason="will test this once we build our app")
+    def test_radio_service_interaction(self, client):
+        with client.console.pexpect() as console:
             console.sendline("podman exec -i systemd-radio radio-client")
             console.expect_exact("Connecting to radio service", timeout=10)
 
