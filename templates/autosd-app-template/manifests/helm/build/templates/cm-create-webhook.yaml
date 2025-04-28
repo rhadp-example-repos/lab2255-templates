@@ -7,7 +7,7 @@ data:
     - hosts: localhost
       vars:
         git_host: {{ .Values.git.host }}
-        git_project: {{ .Values.app.component_id }}
+        git_project: {{ .Values.git.org }}/{{ .Values.git.name }}
         git_token: {{ .Values.git.token }}
         webhook_url: https://webhook-{{ .Values.app.name }}{{ .Values.app.cluster }}
         webhook_secret: {{ .Values.git.webhookSecret }}
@@ -28,7 +28,7 @@ data:
           set_fact:
             git_project_id: '{{ "{{" }} r_git_projects.json | json_query(query) {{ "}}" }}'
           vars:
-            query: {{ "\"" }}[?name=='{{ "{{" }} git_project {{ "}}" }}'].id{{ "\"" }}
+            query: {{ "\"" }}[?path_with_namespace=='{{ "{{" }} git_project {{ "}}" }}'].id{{ "\"" }}
 
         - name: Add root user to {{ "{{" }} git_project {{ "}}" }}
           ansible.builtin.uri:
