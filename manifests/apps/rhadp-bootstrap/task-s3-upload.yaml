@@ -10,7 +10,7 @@ spec:
       type: string
       default: ""
     - name: component_id
-      description: "The conponent_id the job belongs to"
+      description: "The component_id the job belongs to"
       type: string
       default: ""
     - name: os_image_name

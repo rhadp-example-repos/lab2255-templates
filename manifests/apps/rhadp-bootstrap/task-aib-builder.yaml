@@ -10,7 +10,7 @@ spec:
       type: string
       default: ""
     - name: component_id
-      description: "the conponent_id the job belongs to"
+      description: "the component_id the job belongs to"
       type: string
       default: ""
     # aib build parameters
