@@ -98,11 +98,11 @@ static struct radio_station_info_t radio_stations[] = {
   { "Radio Los Santos", SONGS(radio_los_santos) },
   { "Non-Stop-Pop FM", SONGS(non_stop_pop) },
   
-  /* REMOVE COMMETN LINE TO ENABLE THE NEW RADIO STATION
+  /* REMOVE THIS COMMENT LINE TO ENABLE THE NEW RADIO STATION
   
   { "Red Hat Summit Radio", SONGS(radio_summit2025) },
 
-  REMOVEE THIS COMMENT LINE TO ENABLE THE NEW RADIO STATION */
+  REMOVE THIS COMMENT LINE TO ENABLE THE NEW RADIO STATION */
 };
 
 #define N_STATIONS sizeof(radio_stations)/sizeof(struct radio_station_info_t)
