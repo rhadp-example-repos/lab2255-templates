@@ -23,6 +23,8 @@ metadata:
       title: "DevSpace ${{values.component_id}}"
     - url: https://devspaces${{values.cluster}}
       title: OpenShift Dev Spaces Workspaces
+    - url: https://showroom-showroom-${{values.owner}}${{values.cluster}}
+      title: Showroom
       
 spec:
   type: application
