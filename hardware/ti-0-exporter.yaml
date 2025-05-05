@@ -1,0 +1,10 @@
+apiVersion: jumpstarter.dev/v1alpha1
+kind: Exporter
+metadata:
+  namespace: jumpstarter-qemu-exporter
+  name: ti-0
+  labels:
+    platform: ti
+    type: physical
+spec:
+  username: kubernetes:jumpstarter-qemu-exporter

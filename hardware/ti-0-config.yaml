@@ -1,0 +1,33 @@
+apiVersion: jumpstarter.dev/v1alpha1
+kind: ExporterConfig
+metadata:
+  namespace: jumpstarter-qemu-exporter
+  name: ti-0
+endpoint: jumpstarter-grpc.jumpstarter-lab.svc.cluster.local:8082
+token: "<placeholder>"
+export:
+  power:
+    type: jumpstarter_driver_tasmota.driver.TasmotaPower
+    config:
+      host: 44e8bead4f554623bb181659a58ddb11.s1.eu.hivemq.cloud
+      port: 8883
+      username: "<placeholder>"
+      password: "<placeholder>"
+      cmnd_topic: cmnd/tasmota_9520FD/POWER
+      stat_topic: stat/tasmota_9520FD/POWER
+  console:
+    type: jumpstarter_driver_pyserial.driver.PySerial
+    config:
+      url: /dev/ttyUSB0
+      baudrate: 115200
+  flasher:
+    type: "jumpstarter_driver_flashers.driver.TIJ784S4Flasher"
+    children:
+      power:
+        ref: "power"
+      serial:
+        ref: "console"
+      tftp:
+        type: jumpstarter_driver_tftp.driver.Tftp
+        config:
+          host: 192.168.0.1
